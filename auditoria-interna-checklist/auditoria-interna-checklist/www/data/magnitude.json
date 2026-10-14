@@ -1,0 +1,72 @@
+{
+  "t": "O nível de criticidade é a medida utilizada para classificar a *gravidade e o impacto* de um achado ou risco identificado durante uma auditoria, permitindo priorizar as ações corretivas e decisões gerenciais conforme a urgência e as potenciais consequências para a organização. Para fins deste relatório, os níveis de criticidade são categorizados em: **muito baixo, baixo, moderado, significativo e crítico**.\n- **Crítico/Alto**: exige ação imediata, pode representar risco à continuidade do negócio, à integridade financeira ou à conformidade legal.\n- **Médio/Significativo**: importante, mas não necessariamente urgente. Requer plano de ação, com monitoramento próximo.\n- **Baixo/Moderado**: menor impacto, oportunidade de melhoria contínua (OM).\nEssa classificação é feita com base em critérios como: extensão do problema, frequência com que pode ocorrer, impactos financeiros, prazos não cumpridos, danos à imagem, reputacionais e operacionais.",
+  "p": [
+    [
+      "Crítico",
+      "5",
+      "Evento repetitivo e constante.",
+      "≥ 70% dos eventos (7 ou mais em 10)"
+    ],
+    [
+      "Significativo",
+      "4",
+      "Evento usual, com histórico de ocorrência amplamente conhecido.",
+      "Entre 50% e 69% dos eventos"
+    ],
+    [
+      "Moderado",
+      "3",
+      "Evento esperado, com histórico de ocorrência parcialmente conhecido.",
+      "Entre 30% e 49% dos eventos"
+    ],
+    [
+      "Baixo",
+      "2",
+      "Evento casual e inesperado, sem histórico de ocorrência.",
+      "Entre 11% e 29% dos eventos"
+    ],
+    [
+      "Muito Baixo",
+      "1",
+      "Evento extraordinário, sem histórico de ocorrência.",
+      "≤ 10% dos eventos"
+    ]
+  ],
+  "i": [
+    [
+      "Crítico",
+      "5",
+      "Impacto máximo nos objetivos, sem possibilidade de recuperação.",
+      "Eventos/processos de larga escala movidos contra a empresa ou resultando em grandes penalizações, suspensões de obras, multas e ou impedimento de prestação de serviços.",
+      "≥ 100 mil"
+    ],
+    [
+      "Significativo",
+      "4",
+      "Impacto significante nos objetivos, com possibilidade remota de recuperação.",
+      "Eventos/processos movidos contra a empresa resultando em penalizações, suspensões de obras, multas e ou restrições na prestação de serviços.",
+      "Entre 50 e 100 mil"
+    ],
+    [
+      "Moderado",
+      "3",
+      "Impacto mediano nos objetivos, com possibilidade de recuperação.",
+      "Notificações/advertências com necessidade de estabelecer provisão para penalizações e multas dos órgãos fiscalizadores/regulatórios.",
+      "Entre 26 e 49 mil"
+    ],
+    [
+      "Baixo",
+      "2",
+      "Impacto mínimo nos objetivos.",
+      "Notificações/advertências sem necessidade de estabelecer provisão para penalizações e multas dos órgãos fiscalizadores/regulatórios.",
+      "Entre 11 e 25 mil"
+    ],
+    [
+      "Muito Baixo",
+      "1",
+      "Impacto insignificante nos objetivos.",
+      "Notificações/advertências sem penalizações e multas dos órgãos fiscalizadores/regulatórios.",
+      "≤ 10 mil"
+    ]
+  ]
+}

@@ -1,0 +1,74 @@
+[
+  {
+    "chave": "val",
+    "pergunta": "Cadastro e contrato no ERP (Mega) e vigência válida",
+    "peso": 1,
+    "constatacao": "Contrato vencido ou não cadastrado no Mega.",
+    "recomendacao": "Parametrizar o ERP para enviar alertas automáticos (90, 60 e 30 dias antes do vencimento) ao gestor do contrato e a Suprimentos.",
+    "setor": "ENG / SUP"
+  },
+  {
+    "chave": "adt",
+    "pergunta": "Adendos formalizados e lançados no ERP",
+    "peso": 2,
+    "constatacao": "Alteração de valor, escopo ou prazo sem adendo formalizado e registrado.",
+    "recomendacao": "Formalizar todo adendo assinado e registrá-lo no ERP antes do Boletim de Medição; manter relatório consolidado dos adendos acordados entre obra, terceirizado e Suprimentos.",
+    "setor": "ENG / SUP"
+  },
+  {
+    "chave": "ctr",
+    "pergunta": "Valor contratual utilizado no Boletim de Medição",
+    "peso": 2,
+    "constatacao": "Valor Contratual não está sendo utilizado para o boletim de medição.",
+    "recomendacao": "Estabelecer controle processual para que qualquer alteração de valor, quantitativo, escopo ou condição financeira seja formalizada em adendo assinado e registrada no Mega antes do Boletim de Medição.",
+    "setor": "ENG / SUP"
+  },
+  {
+    "chave": "med",
+    "pergunta": "Planilhas de controle gerencial da medição coerentes",
+    "peso": 2,
+    "constatacao": "Planilhas de controle gerencial da medição incoerentes.",
+    "recomendacao": "Lançar sempre o valor presente em contrato, não o enviado pelo fornecedor; a planilha de saldos deve refletir contrato e adendos do ERP.",
+    "setor": "ENG / SUP"
+  },
+  {
+    "chave": "ass",
+    "pergunta": "Contrato e Boletim de Medição assinados",
+    "peso": 1,
+    "constatacao": "Contrato ou Boletim de Medição sem assinatura.",
+    "recomendacao": "Exigir contrato formalizado e Boletim de Medição assinado antes da liberação do pagamento.",
+    "setor": "ENG / SUP"
+  },
+  {
+    "chave": "bol",
+    "pergunta": "Boletim sem divergência monetária ao contrato",
+    "peso": 1,
+    "constatacao": "Boletim de Medição em divergência monetária ao contrato.",
+    "recomendacao": "Possuir sempre o adendo com a atualização dos valores a pagar disponibilizado no ERP.",
+    "setor": "ENG / SUP"
+  },
+  {
+    "chave": "qdc",
+    "pergunta": "Quadro de Concorrência (3 empresas e justificativas)",
+    "peso": 1,
+    "constatacao": "Quadro de Concorrência ausente, incompleto ou sem justificativa de exceção.",
+    "recomendacao": "Emitir justificativa de exceção aprovada em nível gerencial/Diretoria e anexá-la ao Mega; criar trava sistêmica que impeça contrato ou 1ª medição sem QDC aprovado.",
+    "setor": "SUP"
+  },
+  {
+    "chave": "fis",
+    "pergunta": "Análise fiscal (saúde financeira)",
+    "peso": 0,
+    "constatacao": "Análise fiscal ausente ou desatualizada.",
+    "recomendacao": "Disponibilizar e manter atualizada a análise fiscal do fornecedor no Mega.",
+    "setor": "SUP"
+  },
+  {
+    "chave": "trb",
+    "pergunta": "Documentação trabalhista (SSELCOM)",
+    "peso": 0,
+    "constatacao": "Documentação trabalhista obrigatória incompleta ou vencida.",
+    "recomendacao": "Bloquear a liberação da empresa para atuar na obra enquanto houver documentação trabalhista obrigatória pendente ou vencida, condicionando-a à regularização.",
+    "setor": "SUP / ENG / DHO"
+  }
+]
