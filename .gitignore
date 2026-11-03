@@ -1,0 +1,23 @@
+# Arquivos locais e backups com dados operacionais
+.env
+.env.*
+!.env.example
+*.bak
+*.backup
+*.tmp
+*.log
+
+# Backups e exportações de auditoria (podem conter dados reais)
+backup/
+backups/
+exports/
+exportacoes/
+auditoria-*.json
+*.zip
+*.7z
+*.rar
+
+# Dependências e artefatos locais
+node_modules/
+.DS_Store
+Thumbs.db
