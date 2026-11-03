@@ -30,8 +30,12 @@ function vQg(T){return`<div class="kpi"><div class="card"><div class="w">Nível 
 
 function vPl(){const it=CR.map((k,i)=>[k,i,aff(i)]).filter(x=>x[2].length);if(!it.length)return'<div class="card">Sem constatações: nenhum item PI/NI.</div>';
  return it.map(([k,i,a],n)=>{const p=S.p[k[0]]||{};return`<div class="card" style="margin-bottom:10px"><b>${n+1}. ${esc(k[3])}</b> ${k[2]?'':'<span class="tag tP">ALERTA</span>'}
-<p><b>Recomendação da Auditoria Interna:</b> ${esc(k[4])}<br><b>Itens afetados:</b> ${a.join(', ')}</p>
-<div class="meta"><label class="f">Setor<input class="i" data-p="${k[0]}.s" value="${esc(p.s??k[5])}"></label><label class="f">Prazo<input class="i" data-p="${k[0]}.z" placeholder="MM/AAAA" value="${esc(p.z)}"></label>
+<p><b>Recomendação da AI:</b> ${esc(p.rec||k[4])}<br><b>Itens afetados:</b> ${a.join(', ')}</p>
+<div class="meta">
+<label class="f">Causa provável (validar com evidências)<textarea class="i" rows="2" data-p="${k[0]}.causa">${esc(p.causa||'')}</textarea></label>
+<label class="f">Risco / efeito potencial<textarea class="i" rows="2" data-p="${k[0]}.risco">${esc(p.risco||'')}</textarea></label>
+<label class="f">Recomendação revisada<textarea class="i" rows="3" data-p="${k[0]}.rec" placeholder="Ajuste a recomendação padrão, se necessário">${esc(p.rec||k[4])}</textarea></label>
+<label class="f">Setor<input class="i" data-p="${k[0]}.s" value="${esc(p.s??k[5])}"></label><label class="f">Prazo<input class="i" data-p="${k[0]}.z" placeholder="MM/AAAA" value="${esc(p.z)}"></label>
 <label class="f">Status<select class="i" data-p="${k[0]}.t">${['Pendente','Em andamento','Concluído'].map(o=>`<option ${(p.t||'Pendente')==o?'selected':''}>${o}</option>`).join('')}</select></label>
 <label class="f">Plano de ação do setor auditado<textarea class="i" rows="2" data-p="${k[0]}.x">${esc(p.x)}</textarea></label></div></div>`}).join('')}
 
