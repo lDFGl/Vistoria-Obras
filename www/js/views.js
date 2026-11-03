@@ -13,7 +13,7 @@ function vChk(T){const c=S.c[cur];if(!c)return '<div class="card">Nenhum contrat
  const r=T.r[cur];
   const recs=CR.map((k,i)=>[k,i]).filter(([k,i])=>c.s[i]=='P'||c.s[i]=='N'),P=posOf();
   return`<div class="grid"><div class="card list">${ordIdx().map(j=>{const x=S.c[j];return`<div class="it ${j==cur?'on':''}" data-a="sel" data-v="${j}"><b>8.${P[j]}</b><span class="n">${esc(x.f)}</span></div>`}).join('')}<button class="btn" style="width:100%;margin-top:6px" data-a="add">+ Contrato</button></div>
-<div class="card"><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:200px"><b>8.${P[cur]}</b> · Contrato <input class="i" style="width:90px;display:inline-block" value="${esc(c.ct)}"></div>
+<div class="card"><div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap"><div style="flex:1;min-width:200px"><b>8.${P[cur]}</b> · Contrato <input class="i" data-f="ct" style="width:90px;display:inline-block" value="${esc(c.ct)}"></div>
 <div style="text-align:right"><div class="big">${r.p==null?'—':pc(r.p)}</div><span class="tag t${r.lv}">${LB[r.lv]} – ${NM[r.lv]||'Não avaliado'}</span></div></div>
 <div class="meta" style="margin-top:10px"><label class="f">Fornecedor<input class="i" data-f="f" value="${esc(c.f)}"></label><label class="f">Total do contrato (R$)<input class="i" data-f="t" type="number" value="${esc(c.t)}"></label><label class="f">Valor medido (R$)<input class="i" data-f="v" type="number" value="${esc(c.v)}"></label></div>
 <div class="row"><b>Imagens / evidências fotográficas</b><div class="w">Adicione fotos da vistoria, documentos, evidências de execução ou outras imagens que deverão constar no relatório.</div>
