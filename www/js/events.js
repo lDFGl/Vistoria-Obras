@@ -12,7 +12,39 @@ document.addEventListener('change',e=>{const t=e.target,c=S.c[cur];
  if('reportImg' in t.dataset){const files=[...t.files],key=t.dataset.reportImg;normTI();const arr=S.m.ti[key]=S.m.ti[key]||[];let done=0;files.forEach(file=>{const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{const max=key=='sec4'?1400:1000,scale=Math.min(1,max/Math.max(im.width,im.height));const cv=document.createElement('canvas');cv.width=Math.round(im.width*scale);cv.height=Math.round(im.height*scale);cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);arr.push({name:file.name,data:cv.toDataURL('image/jpeg',.78),w:cv.width,h:cv.height});if(++done===files.length){save();render();toast(files.length+' imagem(ns) do relatório adicionada(s)')}};im.src=rd.result};rd.readAsDataURL(file)});t.value='';return}
  if('img' in t.dataset){const files=[...t.files];c.imgs=c.imgs||[];let done=0;files.forEach(file=>{const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{const max=1100,scale=Math.min(1,max/Math.max(im.width,im.height));const cv=document.createElement('canvas');cv.width=Math.round(im.width*scale);cv.height=Math.round(im.height*scale);cv.getContext('2d').drawImage(im,0,0,cv.width,cv.height);c.imgs.push({name:file.name,data:cv.toDataURL('image/jpeg',.72),w:cv.width,h:cv.height});if(++done===files.length){save();render();toast(files.length+' imagem(ns) adicionada(s)')}};im.src=rd.result};rd.readAsDataURL(file)});t.value='';return}
 
- if(t.dataset.a=='imp'){const r=new FileReader();r.onload=()=>{try{S=JSON.parse(r.result);S.m=Object.assign({sec4:'',sec5:'',sec6:'',lim:'',imgs:[],pa:[]},S.m||{});S.m.imgs=S.m.imgs||[];normTI();S.m.pa=S.m.pa||[];S.m.rex=S.m.rex||'';S.m.concl=S.m.concl||'';S.m.imp=S.m.imp||'Alto';S.m.prb=S.m.prb||'Extremo';S.p=S.p||{};S.c=(S.c||[]).map(c=>Object.assign({o:{},ac:{},imgs:[]},c));normCR();cur=0;save();render();toast('Dados importados')}catch(x){toast('Arquivo inválido')}};r.readAsText(t.files[0]);return}
+ if(t.dataset.a=='imp'){
+  const file=t.files&&t.files[0];t.value='';
+  if(!file){toast('Selecione um arquivo JSON');return}
+  const r=new FileReader();
+  r.onload=()=>{
+    const previous=S;
+    try{
+      const candidate=JSON.parse(r.result);
+      if(!candidate||typeof candidate!=='object'||Array.isArray(candidate)||
+         !candidate.m||typeof candidate.m!=='object'||Array.isArray(candidate.m)||
+         !Array.isArray(candidate.c)||!candidate.p||typeof candidate.p!=='object'||Array.isArray(candidate.p))
+        throw new Error('Estrutura de backup incompatível');
+      candidate.c.forEach((item,i)=>{
+        if(!item||typeof item!=='object'||Array.isArray(item)||
+           !Array.isArray(item.s)||item.s.some(v=>!['I','P','N','O','A'].includes(v))||
+           (item.f!=null&&typeof item.f!=='string')||
+           (item.ct!=null&&typeof item.ct!=='string'&&typeof item.ct!=='number')||
+           (item.t!=null&&!Number.isFinite(Number(item.t)))||
+           (item.v!=null&&!Number.isFinite(Number(item.v))))
+          throw new Error('Contrato inválido na posição '+(i+1));
+      });
+      candidate.m=Object.assign({sec4:'',sec5:'',sec6:'',lim:'',imgs:[],pa:[]},candidate.m);
+      candidate.m.imgs=Array.isArray(candidate.m.imgs)?candidate.m.imgs:[];
+      candidate.m.pa=Array.isArray(candidate.m.pa)?candidate.m.pa:[];
+      candidate.m.rex=candidate.m.rex||'';candidate.m.concl=candidate.m.concl||'';
+      candidate.m.imp=candidate.m.imp||'Alto';candidate.m.prb=candidate.m.prb||'Extremo';
+      candidate.c=candidate.c.map(c=>Object.assign({o:{},ac:{},imgs:[]},c,{o:c.o&&typeof c.o==='object'?c.o:{},ac:c.ac&&typeof c.ac==='object'?c.ac:{},imgs:Array.isArray(c.imgs)?c.imgs:[]}));
+      S=candidate;normTI();normCR();cur=0;save();render();toast('Dados importados e validados');
+    }catch(x){S=previous;toast('Importação cancelada: arquivo inválido ou incompatível. Os dados atuais foram preservados.')}
+  };
+  r.onerror=()=>toast('Não foi possível ler o arquivo. Os dados atuais foram preservados.');
+  r.readAsText(file);return
+}
  if(t.dataset.f){c[t.dataset.f]=['t','v'].includes(t.dataset.f)?+t.value||0:t.value;save();render();return}
  if(t.dataset.o){c.o[t.dataset.o]=t.value}
  else if(t.dataset.ac){c.ac=c.ac||{};c.ac[t.dataset.ac]=t.value}
