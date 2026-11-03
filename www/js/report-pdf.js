@@ -39,8 +39,9 @@ function pdfGen(){if(!window.jspdf||!window.jspdf.jsPDF){toast('Biblioteca de PD
  S.c.forEach((c,j)=>{if(j>0)NP();const r=T.r[j];TB({head:[['Item','Serviço/Terceirizada','Valor medido']],body:[['8.'+(j+1),c.f+' (contrato '+c.ct+')',R$(c.v)]]});
   P('Resultado da Auditoria Interna:',1);
   TB({body:CR.map((k,i)=>[LB[c.s[i]],k[1]+(c.o[k[0]]?' — '+c.o[k[0]]:'')]),lc:0,columnStyles:{0:{cellWidth:36,halign:'center'}}});
-  const rc=CR.filter((k,i)=>c.s[i]=='P'||c.s[i]=='N');P('Recomendação da Auditoria Interna:',1);
-  (rc.length?rc.map((k,i)=>['I','II','III','IV','V','VI','VII','VIII','IX'][i]+'. '+k[4]):['I. Processo sem pendências.']).forEach(t=>P(t));
+  const rc=CR.map((k,i)=>({k,i})).filter(x=>c.s[x.i]=='P'||c.s[x.i]=='N');P('Recomendação da AI:',1);
+  rc.forEach((x,i)=>{const p=S.p[x.k[0]]||{};if(p.causa)P('Causa provável: '+p.causa);if(p.risco)P('Risco / efeito potencial: '+p.risco);P(['I','II','III','IV','V','VI','VII','VIII','IX'][i]+'. '+(p.rec||x.k[4]))});
+  if(!rc.length)P('I. Processo sem pendências.');
   if((c.imgs||[]).length){P('Evidências fotográficas:',1);for(const ph of c.imgs){try{if(y>690)NP();const pw=ph.w||400,phh=ph.h||300,kk=Math.min(300/pw,200/phh,1),w=pw*kk,h=phh*kk;if(y+h+30>770)NP();d.addImage(ph.data,'JPEG',297-w/2,y,w,h);y+=h+10;d.setFont('helvetica','italic').setFontSize(8);d.text(ph.name||'Evidência fotográfica',297,y,{align:'center'});y+=16}catch(e){}}}
   TB({body:[['Nível de Conformidade',LB[r.lv]+' – '+(NM[r.lv]||'Não avaliado')+(r.p==null?'':' ('+pc(r.p)+')')],['Objetivo do Controle','Controle Interno e Gestão'],['Dono do Processo','Engenharia e Suprimentos'],['Comentário do Setor','']],columnStyles:{0:{fontStyle:'bold',cellWidth:140}}})});
  H('9. TABELA DE MAGNITUDE (IMPACTO x PROBABILIDADE)');RT(MG.t);{const mi=Math.max(0,LV.indexOf(m.imp)),mp=Math.max(0,LV.indexOf(m.prb));TB({head:[['Impacto / Magnitude',...LV]],body:[4,3,2,1,0].map(r=>[LV[r],...LV.map((l,j)=>r==mi&&j==mp?'FG '+pc(T.idx):'')]).concat([[{content:'PROBABILIDADE',colSpan:6,styles:{halign:'center',fontStyle:'bold'}}]])});
