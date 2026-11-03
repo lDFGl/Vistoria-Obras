@@ -53,7 +53,7 @@ Precisa de internet apenas para carregar as bibliotecas (jsPDF 2.5.1, jsPDF-Auto
 2. Em **Settings → Pages → Build and deployment → Source**, escolha **GitHub Actions**.
 3. A cada push em `main`, o workflow `.github/workflows/pages.yml` publica a pasta `www`.
 
-> **Atenção:** `www/data/contratos-exemplo.json` contém nomes reais de fornecedores. Use repositório **privado** ou troque esses dados antes de tornar o projeto público.
+> **Privacidade:** `www/data/contratos-exemplo.json` deve conter exclusivamente dados fictícios/demonstrativos. Não inclua nomes reais de fornecedores, números de contratos, valores comerciais, documentos ou dados pessoais.
 
 ## Regras do relatório
 
@@ -79,3 +79,8 @@ A **posição** do critério em `criterios.json` define a coluna do status nos d
 ## Dados e privacidade
 
 Os dados digitados ficam no `localStorage` do navegador (chave `aud1`) e **não vão para o repositório**. Use **Exportar dados** (JSON) para backup e **Importar** para restaurar ou migrar de computador. Dados importados com mais ou menos critérios que o `criterios.json` atual são ajustados automaticamente (posições faltantes viram NA).
+
+- O arquivo `www/data/contratos-exemplo.json` contém apenas registros fictícios para demonstração.
+- Não versionar backups exportados, relatórios reais, contratos, documentos fiscais, fotos de obra ou dados pessoais.
+- Manter o repositório privado e conceder acesso somente a pessoas autorizadas.
+- A remoção de dados de um arquivo na versão atual não elimina cópias existentes no histórico Git, forks ou clones. Se dados reais já foram publicados, avaliar a limpeza do histórico e tratar a exposição conforme as políticas internas de segurança e privacidade.
