@@ -1,0 +1,58 @@
+name: Deploy Vistoria Obras to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "www/**"
+      - ".github/workflows/pages.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Validate application files
+        run: |
+          test -f www/index.html
+          test -f www/js/main.js
+          test -f www/data/criterios.json
+          test -f www/data/textos.json
+          test -f www/data/relatorio-padrao.json
+          python -m json.tool www/data/criterios.json > /dev/null
+          python -m json.tool www/data/textos.json > /dev/null
+          python -m json.tool www/data/relatorio-padrao.json > /dev/null
+          python -m json.tool www/data/magnitude.json > /dev/null
+          python -m json.tool www/data/contratos-exemplo.json > /dev/null
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: www
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
