@@ -28,6 +28,7 @@ jobs:
       - name: Validate application files
         run: |
           test -f www/index.html
+          test -f www/.nojekyll
           test -f www/js/main.js
           test -f www/data/criterios.json
           test -f www/data/textos.json
@@ -37,6 +38,7 @@ jobs:
           python -m json.tool www/data/relatorio-padrao.json > /dev/null
           python -m json.tool www/data/magnitude.json > /dev/null
           python -m json.tool www/data/contratos-exemplo.json > /dev/null
+          for file in www/js/*.js; do node --check "$file"; done
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
