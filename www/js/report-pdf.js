@@ -51,7 +51,7 @@ function pdfGen(){if(!window.jspdf||!window.jspdf.jsPDF){toast('Biblioteca de PD
  RT(m.concl);IMGS('concl');
  H('11. RESUMO DAS RECOMENDAÇÕES E PLANOS DE AÇÃO DO SETOR AUDITADO');
  const body=[];CR.forEach((k,i)=>{const a=aff(i);if(!a.length)return;const p=S.p[k[0]]||{};
-  body.push([(body.length/2+1)+' '+(p.s??k[5]),k[3],k[4]+' Itens afetados: '+a.join(', ')+'.',p.z||'—',p.t||'Pendente']);
+  body.push([(body.length/2+1)+' '+(p.s??k[5]),k[3]+(p.causa?' Causa provável: '+p.causa:'')+(p.risco?' Risco / efeito potencial: '+p.risco:''),(p.rec||k[4])+' Itens afetados: '+a.join(', ')+'.',p.z||'—',p.t||'Pendente']);
   body.push([{content:'PLANO DE AÇÃO DO SETOR AUDITADO: '+(p.x||''),colSpan:5,styles:{fillColor:[236,240,246],minCellHeight:22}}])});
  (S.m.pa||[]).forEach(e=>{if(!(e.c||e.r||e.x))return;body.push([(body.length/2+1)+' '+(e.s||'—'),e.c||'',(e.r||'')+(e.a?' Itens afetados: '+e.a+'.':''),e.z||'—',e.t||'Pendente']);body.push([{content:'PLANO DE AÇÃO DO SETOR AUDITADO: '+(e.x||''),colSpan:5,styles:{fillColor:[236,240,246],minCellHeight:22}}])});
  body.length?TB({head:[['Item / Setor','Constatação','Recomendação da Auditoria Interna','Prazo','Status']],body,columnStyles:{0:{cellWidth:62},3:{cellWidth:45},4:{cellWidth:55}}}):P('Sem constatações PI/NI.');
