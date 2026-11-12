@@ -76,7 +76,7 @@ CR.forEach((k,i)=>{const a=aff(i);if(!a.length)return;const p=S.p[k[0]]||{};n++;
 const s11=[H1('11. RESUMO DAS RECOMENDAÇÕES DA AUDITORIA INTERNA e PLANOS DE AÇÕES DO SETOR AUDITADO'),pa('Resumo do acompanhamento das recomendações feitas pela auditoria interna e providências tomadas pelo setor auditado para atender as demandas.',{a:AL.JUSTIFIED}),n?tb([1100,2200,3938,1200,1200],rw):pa('Sem constatações PI/NI.')];
 const portraitProps={page:{size:{width:11906,height:16838},margin:{top:1701,bottom:1701,left:1701,right:1701,header:1701,footer:1701}}};
 const landscapeProps={page:{size:{width:16838,height:11906},margin:{top:1701,bottom:1701,left:1701,right:1701,header:1701,footer:1701}}};
-const pre=[...cover,...execSummary,...qg,...sm,...s1,...s2,...s3],post=[...s5,...s6,...s7,...s8,...s9,...s10,...s11];
+const pre=[...cover,...qg,...execSummary,...sm,...s1,...s2,...s3],post=[...s5,...s6,...s7,...s8,...s9,...s10,...s11];
 const hasLandscape=!!(m.sec4||hi('sec4'));
 const sections=hasLandscape?[{properties:portraitProps,children:pre},{properties:landscapeProps,children:s4},{properties:portraitProps,children:post}]:[{properties:portraitProps,children:[...pre,...s4,...post]}];
 const doc=new Document({features:{updateFields:true},creator:'Auditoria Interna',title:m.ai+' - '+m.tema,styles:{default:{document:{run:{font:'Arial',size:20}}}},sections});
