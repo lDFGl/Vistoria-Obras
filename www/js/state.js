@@ -22,5 +22,5 @@ const RK=c=>{const l=calc(c).lv;return l=='I'?0:l=='A'?1:l=='P'?2:3};
 const ordIdx=()=>ReportModel.orderedIndices(S.c,CR);
 const sortedC=()=>ReportModel.buildReportModel(S,CR).contracts;
 const posOf=()=>ReportModel.buildReportModel(S,CR).positions;
-const aff=i=>/{const P=posOf();return S.c.map((c,j)=>[c,j]).filter(([c])=>c.s[i]=='P'||c.s[i]=='N').map(([c,j])=>P[j]).sort((a,b)=>a-b).map(n=>'8.'+n)};
+const aff=i=>{const P=posOf();return S.c.map((c,j)=>[c,j]).filter(([c])=>c.s[i]=='P'||c.s[i]=='N').map(([c,j])=>P[j]).sort((a,b)=>a-b).map(n=>'8.'+n)};
 function toast(t){const e=document.createElement('div');e.className='toast';e.textContent=t;document.body.append(e);setTimeout(()=>e.remove(),3500)}
