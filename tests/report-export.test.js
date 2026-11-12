@@ -14,7 +14,7 @@ test('PDF usa o conteúdo integral e estruturado do tópico 2 cadastrado em text
 
 test('PDF organiza imagens em duas colunas e aplica quebra de página antes de cada linha',()=>{
   assert.match(pdf,/const IMGS=\(k,items=null\)=>/);
-  assert.match(pdf,/const pair=a\.slice\(i,i\+2\)/);
+  assert.match(pdf,/const pair=a\.slice\(i,i\+columns\)/);
   assert.match(pdf,/if\(y\+rh>pageH\(\)-90\)NP\(\)/);
   assert.match(pdf,/IMGS\('',c\.imgs\)/);
 });
@@ -28,7 +28,7 @@ test('Resumo executivo é apresentado abaixo do Quadro Geral em Word e PDF',()=>
 
 test('Word apresenta imagens em tabela de duas colunas, com legenda e proporção preservada',()=>{
   assert.match(word,/const imgW=\(k,mw=620,mh=400,items=null,showTitle=true\)/);
-  assert.match(word,/columnWidths:\[4200,4200\]/);
+  assert.match(word,/const widths=columns===1\?\[8400\]:\[4200,4200\]/);
   assert.match(word,/columns=k==='sec4'\?1:2/);
   assert.match(word,/Math\.min\(mw\/2-20,360\)/);
   assert.match(word,/size:4200,type:WT\.DXA/);
