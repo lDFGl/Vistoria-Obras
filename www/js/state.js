@@ -17,7 +17,7 @@ function initState(){
   S.c=(S.c||[]).map(c=>Object.assign({o:{},ac:{},imgs:[]},c,{o:c.o||{},ac:c.ac||{},imgs:Array.isArray(c.imgs)?c.imgs:[]}));
   S.p=S.p||{};normTI();normCR();
 }
-const save=()=>{const result=Reliability.writeStorage(localStorage,LS_KEY,S);if(!result.ok)toast('Não foi possível salvar os dados: memória do navegador cheia ou bloqueada. Exporte um backup e reduza as imagens.');};
+const save=()=>{const result=Reliability.writeStorage(localStorage,LS_KEY,S);if(!result.ok)toast('Não foi possível salvar os dados: memória do navegador cheia ou bloqueada. Exporte um backup e reduza as imagens.');return result.ok;};
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
 const R$=n=>'R$ '+(+n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 const pc=n=>(n*100).toFixed(2).replace('.',',')+'%';
