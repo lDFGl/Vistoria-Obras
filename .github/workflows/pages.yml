@@ -7,6 +7,8 @@ on:
     paths:
       - "www/**"
       - ".github/workflows/pages.yml"
+      - "package.json"
+      - "tests/**"
   workflow_dispatch:
 
 permissions:
