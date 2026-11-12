@@ -77,6 +77,9 @@ test('limites dos cálculos de conformidade e pesos inválidos',()=>{
   assert.equal(model.calcContract(contract(['I','I','I','I']),cr).p,1);
   assert.equal(model.calcContract(contract(['I','I','I','N']),cr).p,.75);
   assert.equal(model.calcContract(contract(['I','I','I','P']),cr).lv,'I');
+  assert.equal(model.calcContract(contract(['I','I','I','I','N']),[...cr,['e','E',1]]).p,.8);
+  assert.equal(model.calcContract(contract(['I','I','I','I','N']),[...cr,['e','E',1]]).lv,'I');
+  assert.equal(model.calcContract(contract(['I','I','I','N']),cr).lv,'P');
   assert.equal(model.calcContract(contract(['I','N','N','N']),cr).lv,'N');
 });
 
