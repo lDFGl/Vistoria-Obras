@@ -21,7 +21,7 @@ function vChk(T){const c=S.c[cur];if(!c)return '<div class="card">Nenhum contrat
 ${(c.imgs||[]).length?`<div class="photos">${c.imgs.map((ph,i)=>`<div class="photo"><img src="${ph.data}" alt="${esc(ph.name||'Imagem do contrato')}"><button type="button" data-rmimg="${i}" title="Remover imagem">×</button><span class="photo-name">${esc(ph.name||'Imagem')}</span></div>`).join('')}</div>`:'<p class="w">Nenhuma imagem adicionada a este contrato.</p>'}</div>
 <div class="row"><b>Checklist de controles</b>
 ${CR.map((k,i)=>`<div class="row ${k[2]?'':'al'}"><b>${esc(k[1])}</b> <span class="w">${k[2]?'peso '+k[2]:'⚠ ALERTA — não influencia a nota'}</span>
-<div class="sb">${'IPNOA'.split('').map(s=>`<button class="${s}${c.s[i]==s?' on':''}" data-a="st" data-i="${i}" data-v="${s}">${LB[s]}</button>`).join('')}</div>
+<div class="sb">${ReportModel.STATUS_ORDER.map(s=>`<button class="${s}${c.s[i]==s?' on':''}" data-a="st" data-i="${i}" data-v="${s}" title="${LB[s]}">${ReportModel.STATUS_SYMBOL[s]}</button>`).join('')}</div>
 <input class="i" placeholder="Evidência / observação" data-o="${k[0]}" value="${esc(c.o[k[0]])}"></div>`).join('')}
 <div class="row"><b>Recomendações geradas</b>${recs.length?'<ol>'+recs.map(([k,i])=>`<li>${esc(k[4])}${k[2]?'':' <i>(alerta)</i>'}</li>`).join('')+'</ol>':'<p class="w">Processo sem pendências.</p>'}
 <button class="btn" data-a="del">${arm=='d'?'Confirmar exclusão?':'Remover este contrato'}</button></div></div>`}
