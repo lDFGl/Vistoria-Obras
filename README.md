@@ -17,7 +17,8 @@ Aplicação web (HTML + CSS + JavaScript, sem build) para registrar o checklist 
    ├─ js/
    │  ├─ config.js                 # rótulos (IM/PI/NI/OM/NA), níveis, chave do localStorage
    │  ├─ data.js                   # carrega data/*.json e logo/*.png
-   │  ├─ state.js                  # estado, cálculo da nota, ordenação dos contratos
+   │  ├─ report-model.js           # camada central de dados, cálculos e ordenação
+   │  ├─ state.js                  # estado, persistência e adaptação dos dados
    │  ├─ views.js                  # telas (checklist, quadro geral, planos, dados do relatório)
    │  ├─ events.js                 # eventos, importar/exportar, download
    │  ├─ report-common.js          # interpretador dos textos livres (Word e PDF)
@@ -41,6 +42,7 @@ A aplicação lê os arquivos de `data/` e `logo/` via HTTP, então **não abra 
 
 ```bash
 npm start              # http://localhost:8080  (usa http-server via npx)
+npm test               # testes automatizados da camada de dados e cálculos
 # ou, sem Node:
 npm run start:python   # python3 -m http.server --directory www
 ```
@@ -57,7 +59,8 @@ Precisa de internet apenas para carregar as bibliotecas (jsPDF 2.5.1, jsPDF-Auto
 
 ## Regras do relatório
 
-- **Ordem dos contratos** no Quadro Geral, no tópico 7, no tópico 8 e no tópico 11: **IM e OM → NA → PI → NI**. Dentro de cada grupo vale a ordem de cadastro. A numeração `8.x` acompanha essa ordem, inclusive na tela.
+- **Ordem dos contratos** no Quadro Geral, no tópico 7, no tópico 8 e no tópico 11: **IM → NA → PI → NI** (OM é tratado como resultado positivo na apuração, mantendo seu código próprio). Dentro de cada grupo vale a ordem de cadastro. A numeração `8.x` acompanha essa ordem, inclusive na tela.
+- **Ordem das classificações na seção 8:** **✔ → N/A → ⚠ → X**. Os códigos internos `I`, `O`, `A`, `P` e `N` permanecem inalterados; `I`/`O` são exibidos como ✔, `A` como N/A, `P` como ⚠ e `N` como X. A ordenação é estável dentro de cada classificação.
 - **Nota do contrato:** soma dos pesos dos critérios IM/OM (1) e PI (0,5) sobre os pesos avaliados; NA não entra. IM ≥ 80% · PI ≥ 50% · NI < 50%.
 - **Nível de conformidade geral:** (IM + 0,65 × PI) ÷ contratos avaliados.
 - **Imagens por tópico:** cada tópico em *Dados do relatório* (4, 5, 6, 6.1, Resumo executivo e 10) aceita as próprias imagens, inseridas logo abaixo do texto do tópico. Fotos de evidência por contrato ficam no tópico 8.
@@ -78,9 +81,17 @@ A **posição** do critério em `criterios.json` define a coluna do status nos d
 
 ## Dados e privacidade
 
-Os dados digitados ficam no `localStorage` do navegador (chave `aud1`) e **não vão para o repositório**. Use **Exportar dados** (JSON) para backup e **Importar** para restaurar ou migrar de computador. Dados importados com mais ou menos critérios que o `criterios.json` atual são ajustados automaticamente (posições faltantes viram NA).
+A camada `www/js/report-model.js` centraliza ordenação, classificação e cálculos compartilhados pela interface e pelos exportadores Word/PDF. Os dados digitados ficam no `localStorage` do navegador (chave `aud1`) e **não vão para o repositório**. Use **Exportar dados** (JSON) para backup e **Importar** para restaurar ou migrar de computador. Dados importados com mais ou menos critérios que o `criterios.json` atual são ajustados automaticamente (posições faltantes viram NA).
 
 - O arquivo `www/data/contratos-exemplo.json` contém apenas registros fictícios para demonstração.
 - Não versionar backups exportados, relatórios reais, contratos, documentos fiscais, fotos de obra ou dados pessoais.
 - Manter o repositório privado e conceder acesso somente a pessoas autorizadas.
 - A remoção de dados de um arquivo na versão atual não elimina cópias existentes no histórico Git, forks ou clones. Se dados reais já foram publicados, avaliar a limpeza do histórico e tratar a exposição conforme as políticas internas de segurança e privacidade.
+
+
+## Padrão de formatação dos relatórios
+
+- **Word:** fonte Arial, corpo em 12 pt; títulos, capa e sumário mantêm hierarquia própria. Margens verticais e distância do cabeçalho/rodapé configuradas em 3 cm. As margens laterais permanecem em 2 cm nesta etapa para preservar a largura das tabelas existentes e evitar cortes; a adequação integral das tabelas ao padrão lateral de 3 cm exige revisão específica de layout.
+- **PDF:** corpo em 12 pt, margens laterais ampliadas e área útil ajustada para A4. O jsPDF utiliza a fonte-base Helvetica (substituta métrica aproximada da Arial); o aplicativo não incorpora uma fonte Arial licenciada.
+- A paginação considera a área útil após o ajuste de margens. As fotos de evidência continuam vinculadas ao contrato/constatação correspondente.
+- **Testes:** `npm test` valida ordenação, cálculos, compatibilidade dos códigos persistidos e não mutação dos dados. O workflow executa esses testes e a verificação sintática dos módulos.
