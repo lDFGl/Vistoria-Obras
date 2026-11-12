@@ -8,7 +8,7 @@ const seed=()=>({m:JSON.parse(JSON.stringify(SEED_META)),
 function initState(){
   const stored=Reliability.readStorage(localStorage,LS_KEY,CR.length);
   S=stored.state||seed();
-  if(stored.error)toast('Não foi possível ler os dados salvos. A cópia original foi preservada; use um backup JSON para recuperação.');
+  if(stored.error)toast('Não foi possível carregar os dados salvos. A aplicação iniciou com dados de demonstração; recupere um backup antes de continuar.');
   S.m=Object.assign({sec4:'',sec5:'',sec6:'',lim:'',imgs:[],pa:[]},S.m||{});
   S.m.pa=Array.isArray(S.m.pa)?S.m.pa:[];
   S.m.pdfOrientation=S.m.pdfOrientation==='landscape'?'landscape':'portrait';
