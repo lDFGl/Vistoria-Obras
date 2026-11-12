@@ -18,6 +18,7 @@ Aplicação web (HTML + CSS + JavaScript, sem build) para registrar o checklist 
    │  ├─ config.js                 # rótulos (IM/PI/NI/OM/NA), níveis, chave do localStorage
    │  ├─ data.js                   # carrega data/*.json e logo/*.png
    │  ├─ report-model.js           # camada central de dados, cálculos e ordenação
+   │  ├─ reliability.js            # migração, backup versionado e persistência
    │  ├─ state.js                  # estado, persistência e adaptação dos dados
    │  ├─ views.js                  # telas (checklist, quadro geral, planos, dados do relatório)
    │  ├─ events.js                 # eventos, importar/exportar, download
