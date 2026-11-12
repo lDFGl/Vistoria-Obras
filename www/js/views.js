@@ -1,6 +1,6 @@
 /* views.js
    Telas (HTML em template string): checklist, quadro geral, planos de ação e dados do relatório. */
-const imgBox=k=>{const a=(S.m.ti&&S.m.ti[k])||[];return`<div class="f" style="margin:4px 0 16px;padding:8px 10px;border:1px dashed var(--b);border-radius:8px"><b>Imagens deste tópico</b> <span cla[...]`}
+const imgBox=k=>{const a=(S.m.ti&&S.m.ti[k])||[];return`<div class="f" style="margin:4px 0 16px;padding:8px 10px;border:1px dashed var(--b);border-radius:8px"><b>Imagens deste tópico</b><div style="margin:8px 0"><label class="btn photo-add">+ Adicionar imagem<input type="file" accept="image/*" data-report-img="${k}" multiple hidden></label></div>${a.length?`<div class="photos">${a.map((ph,i)=>`<div class="photo"><img src="${ph.data}" alt="${esc(ph.name||'Imagem do relatório')}"><button type="button" data-rmreportimg="${k}:${i}" title="Remover imagem">×</button><span class="photo-name">${esc(ph.name||'Imagem')}</span></div>`).join('')}</div>`:'<p class="w">Nenhuma imagem adicionada a este tópico.</p>'}</div>`}
 
 function render(){const T=tot(),m=S.m;
 $('#app').innerHTML=`<header><h1>Auditoria Interna · Checklist de Medição<small>${esc(m.ai)} · ${esc(m.obra)} · ${esc(m.mes)}</small></h1>
