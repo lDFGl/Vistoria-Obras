@@ -1,0 +1,8 @@
+const test=require('node:test');const assert=require('node:assert/strict');const M=require('../www/js/report-model.js');
+const criteria=[['c1','Critério 1',1],['c2','Critério 2',1],['c3','Critério 3',1],['c4','Critério 4',1],['c5','Critério 5',1]];
+const c=(id,status)=>({f:id,ct:id,t:100,v:50,s:status,o:{},imgs:[]});
+test('seção 8: ✔, N/A, ⚠, X; OM permanece código distinto',()=>{const x=c('A',['N','P','A','O','I']);assert.deepEqual(M.sortCriteriaForContract(x,criteria).map(v=>v.i),[3,4,2,1,0]);assert.deepEqual(M.sortCriteriaForContract(x,criteria).map(v=>M.STATUS_SYMBOL[x.s[v.i]]),['✔','✔','N/A','⚠','X'])});
+test('ordem dos contratos é estável dentro da classificação',()=>{const a=[c('ni',['N','N','N','N','N']),c('na',['A','A','A','A','A']),c('im',['I','I','I','I','I']),c('pi',['P','P','P','P','P']),c('im2',['O','I','I','I','I'])];assert.deepEqual(M.orderedIndices(a,criteria),[2,4,1,3,0])});
+test('cálculo preserva peso, exclui NA e atribui metade ao PI',()=>{const r=M.calcContract(c('x',['I','O','A','P','N']),criteria);assert.equal(r.p,.625);assert.equal(r.lv,'P')});
+test('modelo não altera array original nem códigos legados',()=>{const a=[c('ni',['N','N','N','N','N']),c('im',['I','I','I','I','I'])],before=JSON.stringify(a),m=M.buildReportModel({m:{},c:a},criteria);assert.equal(JSON.stringify(a),before);assert.deepEqual(m.contracts.map(x=>x.f),['im','ni']);assert.deepEqual(m.contracts[0].s,['I','I','I','I','I'])});
+test('totais consolidados permanecem coerentes',()=>{const a=[c('im',['I','I','I','I','I']),c('pi',['P','P','P','P','P']),c('ni',['N','N','N','N','N']),c('na',['A','A','A','A','A'])],t=M.calcTotals(a,criteria);assert.deepEqual(t.q,{I:1,P:1,N:1,A:1});assert.equal(t.n,3);assert.equal(t.pts,1.65);assert.equal(t.idx,1.65/3)});
