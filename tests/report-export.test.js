@@ -30,7 +30,8 @@ test('Word apresenta imagens em tabela de duas colunas, com legenda e proporçã
   assert.match(word,/const imgW=\(k,mw=620,mh=400,items=null,showTitle=true\)/);
   assert.match(word,/columnWidths:\[4200,4200\]/);
   assert.match(word,/columns=k==='sec4'\?1:2/);
-  assert.match(word,/Math\.min\(mw\/2-20,360\)/);\n  assert.match(word,/size:4200,type:WT\.DXA/);
+  assert.match(word,/Math\.min\(mw\/2-20,360\)/);
+  assert.match(word,/size:4200,type:WT\.DXA/);
   assert.match(word,/\.\.\.imgW\('',600,380,c\.imgs,false\)/);
 });
 
