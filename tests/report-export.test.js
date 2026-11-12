@@ -19,11 +19,11 @@ test('PDF organiza imagens em duas colunas e aplica quebra de página antes de c
   assert.match(pdf,/IMGS\('',c\.imgs\)/);
 });
 
-test('Resumo executivo é apresentado antes do Quadro Geral em Word e PDF',()=>{
-  assert.match(pdf,/NP\(\);if\(m\.rex\|\|hi\('rex'\)\)\{H\('RESUMO EXECUTIVO'\)/);
+test('Resumo executivo é apresentado abaixo do Quadro Geral em Word e PDF',()=>{
+  assert.match(pdf,/NP\(\);H\('QUADRO GERAL'\)/);
+  assert.match(pdf,/Cálculo do Nível de Conformidade[^;]*;\s*if\(m\.rex\|\|hi\('rex'\)\)\{H\('RESUMO EXECUTIVO'\)/);
   assert.match(word,/const execSummary=\(m\.rex\|\|hi\('rex'\)\)/);
-  assert.match(word,/const pre=\[\.\.\.cover,\.\.\.execSummary,\.\.\.qg/);
-  assert.doesNotMatch(pdf,/Cálculo do Nível de Conformidade[^;]*;RT\(m\.rex\)/);
+  assert.match(word,/const pre=\[\.\.\.cover,\.\.\.qg,\.\.\.execSummary/);
 });
 
 test('Word apresenta imagens em tabela de duas colunas, com legenda e proporção preservada',()=>{
