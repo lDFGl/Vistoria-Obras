@@ -6,9 +6,18 @@ let S,cur=0,tab='chk',arm=0;
 const seed=()=>({m:JSON.parse(JSON.stringify(SEED_META)),
   c:SEED_CONTRACTS.map(x=>({f:x.fornecedor,ct:String(x.contrato),t:+x.total,v:+x.valorMedido,s:String(x.status).split(''),o:{},ac:{}})),p:{}});
 function initState(){
-try{S=JSON.parse(localStorage.getItem(LS_KEY))}catch(e){}S=S||seed();S.m=Object.assign({sec4:'',sec5:'',sec6:'',lim:'',imgs:[],pa:[]},S.m||{});S.m.pa=Array.isArray(S.m.pa)?S.m.pa:[];S.m.pdfOrientation=S.m.pdfOrientation==='landscape'?'landscape':'portrait';S.m.rex=S.m.rex||'';S.m.concl=S.m.concl||'';S.m.imp=S.m.imp||'Alto';S.m.prb=S.m.prb||'Extremo';S.m.imgs=Array.isArray(S.m.imgs)?S.m.imgs:[];S.c=(S.c||[]).map(c=>Object.assign({o:{},ac:{},imgs:[]},c,{o:c.o||{},ac:c.ac||{},imgs:Array.isArray(c.imgs)?c.imgs:[]}));S.p=S.p||{};normTI();normCR();
+  const stored=Reliability.readStorage(localStorage,LS_KEY,CR.length);
+  S=stored.state||seed();
+  if(stored.error)toast('Não foi possível ler os dados salvos. A cópia original foi preservada; use um backup JSON para recuperação.');
+  S.m=Object.assign({sec4:'',sec5:'',sec6:'',lim:'',imgs:[],pa:[]},S.m||{});
+  S.m.pa=Array.isArray(S.m.pa)?S.m.pa:[];
+  S.m.pdfOrientation=S.m.pdfOrientation==='landscape'?'landscape':'portrait';
+  S.m.rex=S.m.rex||'';S.m.concl=S.m.concl||'';S.m.imp=S.m.imp||'Alto';S.m.prb=S.m.prb||'Extremo';
+  S.m.imgs=Array.isArray(S.m.imgs)?S.m.imgs:[];
+  S.c=(S.c||[]).map(c=>Object.assign({o:{},ac:{},imgs:[]},c,{o:c.o||{},ac:c.ac||{},imgs:Array.isArray(c.imgs)?c.imgs:[]}));
+  S.p=S.p||{};normTI();normCR();
 }
-const save=()=>{try{localStorage.setItem(LS_KEY,JSON.stringify(S))}catch(e){toast('Memória do navegador cheia: exporte os dados e use imagens menores')}};
+const save=()=>{const result=Reliability.writeStorage(localStorage,LS_KEY,S);if(!result.ok)toast('Não foi possível salvar os dados: memória do navegador cheia ou bloqueada. Exporte um backup e reduza as imagens.');};
 const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
 const R$=n=>'R$ '+(+n).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
 const pc=n=>(n*100).toFixed(2).replace('.',',')+'%';
