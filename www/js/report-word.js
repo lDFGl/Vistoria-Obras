@@ -52,7 +52,7 @@ tb([800,1100,3538,2100,2100],[{h:1,c:[hd('ITEM:',800),hd('CONTRATO:',1100),hd('F
 const MK={I:['✔','00B050'],O:['✔','00B050'],P:['⚠','FFC000'],N:['X','FF0000'],A:['N/A','008AC9']};
 const s8=[H1('8. CONSTATAÇÕES DA AUDITORIA')];
 S.c.forEach((c,j)=>{const r=T.r[j];if(j>0)s8.push(pa('',{pb:true,af:0}));
- s8.push(tb([900,6138,2600],[{h:1,c:[hd('Item:',900),hd('Serviço/Terceirizada:',6138),hd('Valor Medido:',2600)]},[ce([pa([new Bookmark({id:'ct'+j,children:[tr('8.'+(j+1),{b:1,s:18})]})],{a:ctr,af:0})],900),ce(c.f+' (contrato '+c.ct+')',6138,{b:1}),ce(R$(c.v),2600,cb)]]),sp(),pa('Resultado da Auditoria Interna:',{b:1}));
+ s8.push(tb([900,6138,2600],[{h:1,c:[hd('Item:',900),hd('Serviço/Terceirizada:',6138),hd('Valor Medido:',2600)]},[ce([pa([new Bookmark({id:'ct'+j,children:[tr('8.'+(j+1),{b:1,s:24})]})],{a:ctr,af:0})],900),ce(c.f+' (contrato '+c.ct+')',6138,{b:1}),ce(R$(c.v),2600,cb)]]),sp(),pa('Resultado da Auditoria Interna:',{b:1}));
  ReportModel.sortCriteriaForContract(c,CR).forEach(({k,i})=>{const[g,col]=MK[c.s[i]];s8.push(pa([tr(g,{b:1,c:col,f:'Segoe UI Symbol'}),tr(' - '+k[1]+(c.o[k[0]]?' — '+c.o[k[0]]:'')+';')],{af:60}))});
  const rc=CR.map((k,i)=>({k,i})).filter(x=>c.s[x.i]=='P'||c.s[x.i]=='N');s8.push(pa('Recomendação da AI:',{b:1,bf:160}));
  rc.forEach((x,i)=>{const p=S.p[x.k[0]]||{};if(p.causa)s8.push(pa('Causa provável: '+p.causa,{a:AL.JUSTIFIED,af:60}));if(p.risco)s8.push(pa('Risco / efeito potencial: '+p.risco,{a:AL.JUSTIFIED,af:60}));s8.push(pa(RM[i]+'. '+(p.rec||x.k[4]),{a:AL.JUSTIFIED,af:80}));});
@@ -70,12 +70,12 @@ s10.push(...rtW(m.concl));
 s10.push(...imgW('concl'));
 // 11
 const rw=[{h:1,c:[hd('ITEM / SETOR:',1100),hd('CONSTATAÇÃO:',2200),hd('RECOMENDAÇÃO DA AUDITORIA INTERNA:',3938),hd('PRAZO:',1200),hd('STATUS:',1200)]}];let n=0;
-CR.forEach((k,i)=>{const a=aff(i);if(!a.length)return;const p=S.p[k[0]]||{};n++;rw.push([ce([pa(String(n),{b:1,s:18,af:0}),pa(p.s??k[5],{b:1,s:18,af:0})],1100),ce([pa(k[3],{s:18,af:60}),...(p.causa?[pa('Causa provável: '+p.causa,{s:16,af:40})]:[]),...(p.risco?[pa('Risco / efeito potencial: '+p.risco,{s:16,af:40})]:[])],2200),ce([pa(p.rec||k[4],{s:18,af:60}),pa('Contratos afetados: '+a.join(', ')+'.',{b:1,s:18,af:60})],3938),ce(p.z||'—',1200,{a:ctr}),ce(p.t||'Pendente',1200,cb)]);rw.push([ce('PLANO DE AÇÃO DO SETOR AUDITADO: '+(p.x||''),9638,{cs:5,f:'ECF0F6',b:1})])});
-(m.pa||[]).forEach(e=>{if(!(e.c||e.r||e.x))return;n++;rw.push([ce([pa(String(n),{b:1,s:18,af:0}),pa(e.s||'—',{b:1,s:18,af:0})],1100),ce(e.c||'',2200),ce([pa(e.r||'',{s:18,af:60})].concat(e.a?[pa('Itens afetados: '+e.a,{b:1,s:18,af:60})]:[]),3938),ce(e.z||'—',1200,{a:ctr}),ce(e.t||'Pendente',1200,cb)]);rw.push([ce('PLANO DE AÇÃO DO SETOR AUDITADO: '+(e.x||''),9638,{cs:5,f:'ECF0F6',b:1})])});
+CR.forEach((k,i)=>{const a=aff(i);if(!a.length)return;const p=S.p[k[0]]||{};n++;rw.push([ce([pa(String(n),{b:1,s:24,af:0}),pa(p.s??k[5],{b:1,s:24,af:0})],1100),ce([pa(k[3],{s:24,af:60}),...(p.causa?[pa('Causa provável: '+p.causa,{s:24,af:40})]:[]),...(p.risco?[pa('Risco / efeito potencial: '+p.risco,{s:24,af:40})]:[])],2200),ce([pa(p.rec||k[4],{s:24,af:60}),pa('Contratos afetados: '+a.join(', ')+'.',{b:1,s:24,af:60})],3938),ce(p.z||'—',1200,{a:ctr}),ce(p.t||'Pendente',1200,cb)]);rw.push([ce('PLANO DE AÇÃO DO SETOR AUDITADO: '+(p.x||''),9638,{cs:5,f:'ECF0F6',b:1})])});
+(m.pa||[]).forEach(e=>{if(!(e.c||e.r||e.x))return;n++;rw.push([ce([pa(String(n),{b:1,s:24,af:0}),pa(e.s||'—',{b:1,s:24,af:0})],1100),ce(e.c||'',2200),ce([pa(e.r||'',{s:24,af:60})].concat(e.a?[pa('Itens afetados: '+e.a,{b:1,s:24,af:60})]:[]),3938),ce(e.z||'—',1200,{a:ctr}),ce(e.t||'Pendente',1200,cb)]);rw.push([ce('PLANO DE AÇÃO DO SETOR AUDITADO: '+(e.x||''),9638,{cs:5,f:'ECF0F6',b:1})])});
 const s11=[H1('11. RESUMO DAS RECOMENDAÇÕES DA AUDITORIA INTERNA e PLANOS DE AÇÕES DO SETOR AUDITADO'),pa('Resumo do acompanhamento das recomendações feitas pela auditoria interna e providências tomadas pelo setor auditado para atender as demandas.',{a:AL.JUSTIFIED}),n?tb([1100,2200,3938,1200,1200],rw):pa('Sem constatações PI/NI.')];
 // cabeçalho e rodapé (faixa 135C6C + logo)
 const tiny=()=>new Paragraph({spacing:{after:0,line:20,lineRule:LineRuleType.EXACT},children:[]});
-const wh={b:1,c:'FFFFFF',s:16,a:AL.RIGHT,af:0};
+const wh={b:1,c:'FFFFFF',s:24,a:AL.RIGHT,af:0};
 const hdr=new Header({children:[tb([3800,8106],[[ce([pa([im('logo',Math.round(46*LG.w/LG.h),46)],{af:0})],3800,{f:C,nb:1}),ce([pa(m.ai+' '+m.tema,wh),pa('AUDITORIA INTERNA',wh),pa(m.mes.toUpperCase(),wh)],8106,{f:C,nb:1})]],-1134),tiny()]});
 const ftr=new Footer({children:[tb([11906],[[ce([new Paragraph({alignment:ctr,children:[new TextRun({children:['Página ',PageNumber.CURRENT],font:'Arial',size:16,bold:true,color:'FFFFFF'})]})],11906,{f:C,nb:1})]],-1134),tiny()]});
 const portraitProps={page:{size:{width:11906,height:16838},margin:{top:1701,bottom:1701,left:1134,right:1134,header:1701,footer:1701}}};
