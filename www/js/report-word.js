@@ -75,7 +75,7 @@ CR.forEach((k,i)=>{const a=aff(i);if(!a.length)return;const p=S.p[k[0]]||{};n++;
 (m.pa||[]).forEach(e=>{if(!(e.c||e.r||e.x))return;n++;rw.push([ce([pa(String(n),{b:1,s:24,af:0}),pa(e.s||'—',{b:1,s:24,af:0})],1100),ce(e.c||'',2200),ce([pa(e.r||'',{s:24,af:60})].concat(e.a?[pa('Itens afetados: '+e.a,{b:1,s:24,af:60})]:[]),3938),ce(e.z||'—',1200,{a:ctr}),ce(e.t||'Pendente',1200,cb)]);rw.push([ce('PLANO DE AÇÃO DO SETOR AUDITADO: '+(e.x||''),9638,{cs:5,f:'ECF0F6',b:1})])});
 const s11=[H1('11. RESUMO DAS RECOMENDAÇÕES DA AUDITORIA INTERNA e PLANOS DE AÇÕES DO SETOR AUDITADO'),pa('Resumo do acompanhamento das recomendações feitas pela auditoria interna e providências tomadas pelo setor auditado para atender as demandas.',{a:AL.JUSTIFIED}),n?tb([1100,2200,3938,1200,1200],rw):pa('Sem constatações PI/NI.')];
 const portraitProps={page:{size:{width:11906,height:16838},margin:{top:1701,bottom:1701,left:1701,right:1701,header:737,footer:737}}};
-const landscapeProps={page:{size:{width:16838,height:11906},margin:{top:1701,bottom:1701,left:1701,right:1701,header:1701,footer:1701}}};
+const landscapeProps={page:{size:{width:16838,height:11906},margin:{top:1701,bottom:1701,left:1701,right:1701,header:737,footer:737}}};
 const pre=[...cover,...qg,...execSummary,...sm,...s1,...s2,...s3],post=[...s5,...s6,...s7,...s8,...s9,...s10,...s11];
 const hasLandscape=!!(m.sec4||hi('sec4'));
 const sections=hasLandscape?[{properties:portraitProps,children:pre},{properties:landscapeProps,children:s4},{properties:portraitProps,children:post}]:[{properties:portraitProps,children:[...pre,...s4,...post]}];
