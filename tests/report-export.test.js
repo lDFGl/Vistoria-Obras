@@ -29,7 +29,8 @@ test('Resumo executivo é apresentado abaixo do Quadro Geral em Word e PDF',()=>
 test('Word apresenta imagens em tabela de duas colunas, com legenda e proporção preservada',()=>{
   assert.match(word,/const imgW=\(k,mw=620,mh=400,items=null,showTitle=true\)/);
   assert.match(word,/columnWidths:\[4200,4200\]/);
-  assert.match(word,/columns=k==='sec4'\?1:2/);\n  assert.match(word,/Math\.min\(mw\/2-20,360\)/);\n  assert.match(word,/size:4200,type:WT\.DXA/);
+  assert.match(word,/columns=k==='sec4'\?1:2/);
+  assert.match(word,/Math\.min\(mw\/2-20,360\)/);\n  assert.match(word,/size:4200,type:WT\.DXA/);
   assert.match(word,/\.\.\.imgW\('',600,380,c\.imgs,false\)/);
 });
 
@@ -74,11 +75,11 @@ test('backup inválido é rejeitado sem alterar estado anterior',()=>{
 test('persistência local salva, restaura e preserva JSON corrompido para recuperação',()=>{
   const map=new Map(),storage={getItem:k=>map.has(k)?map.get(k):null,setItem:(k,v)=>map.set(k,v)};
   const state={m:{ai:'AI-018'},c:[{f:'Obra',s:['I'],t:10,v:5}],p:{}};
-  assert.equal(reliability.writeStorage(storage,'aud1',state).ok,true);
-  assert.deepEqual(reliability.readStorage(storage,'aud1',1).state,reliability.normalizeState(state,1));
-  map.set('aud1','{json quebrado');
-  assert.ok(reliability.readStorage(storage,'aud1',1).error);
-  assert.equal(map.get('aud1.recovery'),'{json quebrado');
+  assert.equal(reliability.writeStorage(storage,'vistoria-obras:auditoria-medicao:v2',state).ok,true);
+  assert.deepEqual(reliability.readStorage(storage,'vistoria-obras:auditoria-medicao:v2',1).state,reliability.normalizeState(state,1));
+  map.set('vistoria-obras:auditoria-medicao:v2','{json quebrado');
+  assert.ok(reliability.readStorage(storage,'vistoria-obras:auditoria-medicao:v2',1).error);
+  assert.equal(map.get('vistoria-obras:auditoria-medicao:v2.recovery'),'{json quebrado');
 });
 test('limites dos cálculos de conformidade e pesos inválidos',()=>{
   const cr=[['a','A',1],['b','B',1],['c','C',1],['d','D',1]];
