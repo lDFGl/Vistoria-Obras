@@ -57,7 +57,7 @@ function readStorage(storage,key,criteriaCount){
   let raw;try{raw=storage.getItem(key)}catch(e){return{state:null,error:e}}
   if(raw==null)return{state:null,error:null};
   try{return{state:normalizeState(JSON.parse(raw),criteriaCount),error:null}}
-  catch(e){return{state:null,error:e}}
+  catch(e){try{storage.setItem(key+'.recovery',raw)}catch(ignore){}return{state:null,error:e}}
 }
 function writeStorage(storage,key,state){
   try{storage.setItem(key,JSON.stringify(state));return{ok:true,error:null}}
