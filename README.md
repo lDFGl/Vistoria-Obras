@@ -50,6 +50,17 @@ npm run start:python   # python3 -m http.server --directory www
 
 Precisa de internet apenas para carregar as bibliotecas (jsPDF 2.5.1, jsPDF-AutoTable 3.8.2 e docx 8.5.0, em versões fixas via CDN).
 
+## CI/CD e manutenção do workflow
+
+O workflow `.github/workflows/pages.yml` executa os testes automatizados e valida os arquivos JavaScript/JSON antes de publicar a pasta `www` no GitHub Pages.
+
+- **Runtime de CI:** Node.js 24 (utilizado para executar `npm test` e as verificações sintáticas).
+- **Actions utilizadas:** `actions/checkout@v7`, `actions/setup-node@v7`, `actions/configure-pages@v6`, `actions/upload-pages-artifact@v5` e `actions/deploy-pages@v5`.
+- **Ordem do pipeline:** checkout → configuração do Node.js → testes → validação dos arquivos → preparação e envio do artefato → publicação.
+- **Critério de publicação:** o job de deploy depende da conclusão bem-sucedida do job de build.
+
+As versões das Actions devem ser revisadas periodicamente para acompanhar os runtimes suportados pelo GitHub Actions e evitar avisos de descontinuação. A atualização de versões não substitui a validação dos testes e da publicação após cada mudança no workflow.
+
 ## Publicar no GitHub Pages
 
 1. Crie o repositório e envie o projeto para a branch `main`.
