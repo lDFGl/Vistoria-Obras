@@ -13,7 +13,7 @@ const im=(k,w,h)=>new ImageRun({type:'png',data:u8(k),transformation:{width:w,he
 const bd={style:BS.SINGLE,size:4,color:'7F7F7F'},B={top:bd,bottom:bd,left:bd,right:bd},nb={style:BS.NONE,size:0,color:'FFFFFF'},NB={top:nb,bottom:nb,left:nb,right:nb};
 const tr=(t,o={})=>new TextRun({text:String(t),font:o.f||'Arial',size:o.s||24,bold:o.b,italics:o.i,color:o.c});
 const pa=(t,o={})=>new Paragraph({alignment:o.a||AL.JUSTIFIED,spacing:{before:o.bf||0,after:o.af??120,line:276},pageBreakBefore:o.pb,heading:o.h,children:Array.isArray(t)?t:[tr(t,o)]});
-const ce=(c,w,o={})=>new TableCell({width:{size:Math.round(w*(o.scale??.88)),type:WT.DXA},borders:o.nb?NB:B,verticalAlign:VA.CENTER,columnSpan:o.cs,margins:{top:60,bottom:60,left:90,right:90},shading:o.f?{type:ShadingType.SOLID,fill:o.f,color:o.c||'auto'}:undefined,children:Array.isArray(c)?c:[pa(c,{a:o.a,b:o.b,i:o.i,c:o.c,s:o.s||24,af:0})]});
+const ce=(c,w,o={})=>new TableCell({width:{size:Math.round(w*(o.scale??.88)),type:WT.DXA},borders:o.nb?NB:B,verticalAlign:VA.CENTER,columnSpan:o.cs,margins:{top:60,bottom:60,left:90,right:90},shading:o.f?{type:ShadingType.CLEAR,fill:o.f,color:o.c||'auto'}:undefined,children:Array.isArray(c)?c:[pa(c,{a:o.a,b:o.b,i:o.i,c:o.c,s:o.s||24,af:0})]});
 const tb=(ws,rows,ind,scale=.88)=>new Table({width:{size:Math.round(ws.reduce((a,b)=>a+b)*scale),type:WT.DXA},columnWidths:ws.map(w=>Math.round(w*scale)),indent:ind?{size:ind,type:WT.DXA}:undefined,rows:rows.map(r=>new TableRow({cantSplit:true,tableHeader:!!r.h,children:r.c||r}))});
 const hd=(t,w)=>ce(t,w,{f:C,c:'FFFFFF',b:1,a:AL.CENTER}),ico=(k,w)=>ce([pa([im(ic[k],24,22)],{a:AL.CENTER,af:0})],w),sp=()=>pa('',{af:60});
 const H1=(t,o={})=>pa(t,{h:HeadingLevel.HEADING_1,b:1,s:24,pb:true,af:200,a:AL.LEFT,...o});
