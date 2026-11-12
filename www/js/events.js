@@ -20,7 +20,8 @@ document.addEventListener('change',e=>{const t=e.target,c=S.c[cur];
     const previous=S;
     try{
       const candidate=JSON.parse(r.result);
-      const validation=ReportModel.validateBackup(candidate);\n      if(!validation.valid)throw new Error(validation.message);
+      const validation=ReportModel.validateBackup(candidate);
+      if(!validation.valid)throw new Error(validation.message);
       candidate.m=Object.assign({sec4:'',sec5:'',sec6:'',lim:'',imgs:[],pa:[]},candidate.m);
       candidate.m.imgs=Array.isArray(candidate.m.imgs)?candidate.m.imgs:[];
       candidate.m.pa=Array.isArray(candidate.m.pa)?candidate.m.pa:[];
