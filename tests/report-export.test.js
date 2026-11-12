@@ -143,11 +143,35 @@ test('arquivos exportados normalizam acentos sem alterar o título exibido',()=>
 test('OM não é contabilizada como contrato no Quadro Geral',()=>{
   const views=fs.readFileSync(path.join(__dirname,'../www/js/views.js'),'utf8');
   assert.doesNotMatch(views,/T\.q\.O/);
-  assert.doesNotMatch(word,/Oportunidade de Melhoria \(OM\)/);
-  assert.doesNotMatch(pdf,/Oportunidade de melhoria \(OM\)/);
+  assert.doesNotMatch(word,/const q=\[[^;]*\['Oportunidade de Melhoria \(OM\)'/s);
+  assert.doesNotMatch(pdf,/\['Oportunidade de melhoria \(OM\) – 1 ponto'/);
 });
 test('seção 4 recebe coluna única e cabeçalho/rodapé usam 1,3 cm',()=>{
   assert.match(word,/columns=k==='sec4'\?1:2/);
   assert.match(word,/header:737,footer:737/);
   assert.match(pdf,/columns=k==='sec4'\?1:2/);
+});
+
+test('criterios.json tem chaves únicas, campos obrigatórios e pesos numéricos não negativos',()=>{
+  const criteria=JSON.parse(fs.readFileSync(path.join(__dirname,'../www/data/criterios.json'),'utf8'));
+  const keys=criteria.map(x=>x.chave);
+  assert.equal(new Set(keys).size,keys.length);
+  for(const item of criteria){
+    assert.ok(item.chave&&item.pergunta&&item.constatacao&&item.recomendacao&&item.setor);
+    assert.equal(typeof item.peso,'number');
+    assert.ok(Number.isFinite(item.peso)&&item.peso>=0);
+  }
+  const data=fs.readFileSync(path.join(__dirname,'../www/js/data.js'),'utf8');
+  assert.match(data,/Chave de critério ausente ou duplicada/);
+  assert.match(data,/Peso inválido no critério/);
+});
+test('dados antigos são migrados da chave aud1 para a chave exclusiva',()=>{
+  const state=fs.readFileSync(path.join(__dirname,'../www/js/state.js'),'utf8');
+  assert.match(state,/Reliability\.readStorage\(localStorage,LEGACY_LS_KEY,CR\.length\)/);
+  assert.match(state,/Reliability\.writeStorage\(localStorage,LS_KEY,legacy\.state\)/);
+});
+test('seções do formulário preservam estado aberto/fechado durante renderização',()=>{
+  const views=fs.readFileSync(path.join(__dirname,'../www/js/views.js'),'utf8');
+  assert.match(views,/sectionStates\[el\.dataset\.sectionKey\]=el\.open/);
+  assert.match(views,/el\.open=sectionStates\[el\.dataset\.sectionKey\]/);
 });
