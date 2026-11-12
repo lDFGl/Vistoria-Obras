@@ -13,8 +13,8 @@ const im=(k,w,h)=>new ImageRun({type:'png',data:u8(k),transformation:{width:w,he
 const bd={style:BS.SINGLE,size:4,color:'7F7F7F'},B={top:bd,bottom:bd,left:bd,right:bd},nb={style:BS.NONE,size:0,color:'FFFFFF'},NB={top:nb,bottom:nb,left:nb,right:nb};
 const tr=(t,o={})=>new TextRun({text:String(t),font:o.f||'Arial',size:o.s||24,bold:o.b,italics:o.i,color:o.c});
 const pa=(t,o={})=>new Paragraph({alignment:o.a||AL.JUSTIFIED,spacing:{before:o.bf||0,after:o.af??120,line:276},pageBreakBefore:o.pb,heading:o.h,children:Array.isArray(t)?t:[tr(t,o)]});
-const ce=(c,w,o={})=>new TableCell({width:{size:w,type:WT.DXA},borders:o.nb?NB:B,verticalAlign:VA.CENTER,columnSpan:o.cs,margins:{top:60,bottom:60,left:90,right:90},shading:o.f?{type:ShadingType.CLEAR,fill:o.f,color:'auto'}:undefined,children:Array.isArray(c)?c:[pa(c,{a:o.a,b:o.b,i:o.i,c:o.c,s:o.s||24,af:0})]});
-const tb=(ws,rows,ind)=>new Table({width:{size:ws.reduce((a,b)=>a+b),type:WT.DXA},columnWidths:ws,indent:ind?{size:ind,type:WT.DXA}:undefined,rows:rows.map(r=>new TableRow({cantSplit:true,tableHeader:!!r.h,children:r.c||r}))});
+const ce=(c,w,o={})=>new TableCell({width:{size:Math.round(w*(o.scale??.88)),type:WT.DXA},borders:o.nb?NB:B,verticalAlign:VA.CENTER,columnSpan:o.cs,margins:{top:60,bottom:60,left:90,right:90},shading:o.f?{type:ShadingType.CLEAR,fill:o.f,color:'auto'}:undefined,children:Array.isArray(c)?c:[pa(c,{a:o.a,b:o.b,i:o.i,c:o.c,s:o.s||24,af:0})]});
+const tb=(ws,rows,ind,scale=.88)=>new Table({width:{size:Math.round(ws.reduce((a,b)=>a+b)*scale),type:WT.DXA},columnWidths:ws.map(w=>Math.round(w*scale)),indent:ind?{size:ind,type:WT.DXA}:undefined,rows:rows.map(r=>new TableRow({cantSplit:true,tableHeader:!!r.h,children:r.c||r}))});
 const hd=(t,w)=>ce(t,w,{f:C,c:'FFFFFF',b:1,a:AL.CENTER}),ico=(k,w)=>ce([pa([im(ic[k],24,22)],{a:AL.CENTER,af:0})],w),sp=()=>pa('',{af:60});
 const H1=(t,o={})=>pa(t,{h:HeadingLevel.HEADING_1,b:1,s:24,pb:true,af:200,a:AL.LEFT,...o});
 const tx1=([t,x])=>t=='b'?new Paragraph({alignment:AL.JUSTIFIED,bullet:{level:0},spacing:{after:60},children:[tr(x)]}):t=='h'?pa(x,{b:1,bf:120,af:60,a:AL.LEFT}):pa(x,{a:AL.JUSTIFIED});
@@ -76,11 +76,11 @@ const s11=[H1('11. RESUMO DAS RECOMENDAÇÕES DA AUDITORIA INTERNA e PLANOS DE A
 // cabeçalho e rodapé (faixa 135C6C + logo)
 const tiny=()=>new Paragraph({spacing:{after:0,line:20,lineRule:LineRuleType.EXACT},children:[]});
 const wh={b:1,c:'FFFFFF',s:24,a:AL.RIGHT,af:0};
-const hdr=new Header({children:[tb([3800,8106],[[ce([pa([im('logo',Math.round(46*LG.w/LG.h),46)],{af:0})],3800,{f:C,nb:1}),ce([pa(m.ai+' '+m.tema,wh),pa('AUDITORIA INTERNA',wh),pa(m.mes.toUpperCase(),wh)],8106,{f:C,nb:1})]],-1134),tiny()]});
+const hdr=new Header({children:[tb([2700,5804],[[ce([pa([im('logo',Math.round(46*LG.w/LG.h),46)],{af:0})],2700,{f:C,nb:1,scale:1}),ce([pa(m.ai+' '+m.tema,wh),pa('AUDITORIA INTERNA',wh),pa(m.mes.toUpperCase(),wh)],5804,{f:C,nb:1,scale:1})]],0,1),tiny()]});
 const ftr=new Footer({children:[tb([11906],[[ce([new Paragraph({alignment:ctr,children:[new TextRun({children:['Página ',PageNumber.CURRENT],font:'Arial',size:16,bold:true,color:'FFFFFF'})]})],11906,{f:C,nb:1})]],-1134),tiny()]});
-const portraitProps={page:{size:{width:11906,height:16838},margin:{top:1701,bottom:1701,left:1134,right:1134,header:1701,footer:1701}}};
-const landscapeProps={page:{size:{width:16838,height:11906},margin:{top:1701,bottom:1701,left:1134,right:1134,header:1701,footer:1701}}};
-const hdrL=new Header({children:[tb([5000,11838],[[ce([pa([im('logo',Math.round(46*LG.w/LG.h),46)],{af:0})],5000,{f:C,nb:1}),ce([pa(m.ai+' '+m.tema,wh),pa('AUDITORIA INTERNA',wh),pa(m.mes.toUpperCase(),wh)],11838,{f:C,nb:1})]],-900),tiny()]});
+const portraitProps={page:{size:{width:11906,height:16838},margin:{top:1701,bottom:1701,left:1701,right:1701,header:1701,footer:1701}}};
+const landscapeProps={page:{size:{width:16838,height:11906},margin:{top:1701,bottom:1701,left:1701,right:1701,header:1701,footer:1701}}};
+const hdrL=new Header({children:[tb([5000,8436],[[ce([pa([im('logo',Math.round(46*LG.w/LG.h),46)],{af:0})],5000,{f:C,nb:1,scale:1}),ce([pa(m.ai+' '+m.tema,wh),pa('AUDITORIA INTERNA',wh),pa(m.mes.toUpperCase(),wh)],8436,{f:C,nb:1,scale:1})]],0,1),tiny()]});
 const ftrL=new Footer({children:[tb([15038],[[ce([new Paragraph({alignment:ctr,children:[new TextRun({children:['Página ',PageNumber.CURRENT],font:'Arial',size:16,bold:true,color:'FFFFFF'})]})],15038,{f:C,nb:1})]],-900),tiny()]});
 const pre=[...cover,...qg,...sm,...s1,...s2,...s3],post=[...s5,...s6,...s7,...s8,...s9,...s10,...s11];
 const hasLandscape=!!(m.sec4||hi('sec4'));
