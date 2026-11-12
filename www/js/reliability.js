@@ -2,7 +2,7 @@
    Migração, validação, backup versionado e persistência testável. */
 (function(root){
 'use strict';
-const VERSION=2,VALID=['I','O','A','P','N'];
+const VERSION=3,VALID=['I','O','A','P','N'];
 const clone=x=>JSON.parse(JSON.stringify(x));
 function unwrap(input){
   if(input&&typeof input==='object'&&!Array.isArray(input)&&input.app==='Vistoria-Obras'&&input.data)return input.data;
@@ -13,12 +13,16 @@ function validateState(input){
   if(!s||typeof s!=='object'||Array.isArray(s)||!Array.isArray(s.c))return{valid:false,message:'Estrutura incompatível: lista de contratos ausente'};
   if(s.m!=null&&(typeof s.m!=='object'||Array.isArray(s.m)))return{valid:false,message:'Metadados do relatório inválidos'};
   if(s.p!=null&&(typeof s.p!=='object'||Array.isArray(s.p)))return{valid:false,message:'Recomendações inválidas'};
+  const validImage=ph=>ph&&typeof ph==='object'&&typeof ph.data==='string'&&/^data:image\/jpeg;base64,[A-Za-z0-9+/]+={0,2}$/.test(ph.data);
+  const imageLists=[...(Array.isArray(s.m&&s.m.imgs)?[s.m.imgs]:[]),...Object.values(s.m&&s.m.ti&&typeof s.m.ti==='object'?s.m.ti:{}).filter(Array.isArray)];
+  if(imageLists.some(list=>list.some(ph=>!validImage(ph))))return{valid:false,message:'Imagem inválida: somente JPEG em base64 é permitido'};
   for(let i=0;i<s.c.length;i++){
     const c=s.c[i];if(!c||typeof c!=='object'||Array.isArray(c))return{valid:false,message:'Contrato inválido na posição '+(i+1)};
     const statuses=Array.isArray(c.s)?c.s:(typeof c.s==='string'?Array.from(c.s):(typeof c.status==='string'?Array.from(c.status):null));
     if(statuses&&statuses.some(v=>!VALID.includes(v)))return{valid:false,message:'Classificação inválida no contrato '+(i+1)};
     if(c.t!=null&&c.t!==''&&!Number.isFinite(Number(c.t)))return{valid:false,message:'Valor contratual inválido no contrato '+(i+1)};
     if(c.v!=null&&c.v!==''&&!Number.isFinite(Number(c.v)))return{valid:false,message:'Valor medido inválido no contrato '+(i+1)};
+    if(c.imgs!=null&&(!Array.isArray(c.imgs)||c.imgs.some(ph=>!validImage(ph))))return{valid:false,message:'Imagem inválida no contrato '+(i+1)};
   }
   return{valid:true,message:''};
 }

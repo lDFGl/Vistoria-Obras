@@ -2,13 +2,16 @@
    Estado da aplicação (S), persistência no localStorage, cálculo de notas e ordenação dos contratos. */
 let S,cur=0,tab='chk',arm=0;
 
-// estado inicial de um relatório novo (a partir de data/relatorio-padrao.json e data/contratos-exemplo.json)
-const seed=()=>({m:JSON.parse(JSON.stringify(SEED_META)),
-  c:SEED_CONTRACTS.map(x=>({f:x.fornecedor,ct:String(x.contrato),t:+x.total,v:+x.valorMedido,s:String(x.status).split(''),o:{},ac:{}})),p:{}});
+// Estado inicial: metadados padrão e lista vazia para evitar misturar demonstrações com auditorias reais.
+const seed=()=>({m:JSON.parse(JSON.stringify(SEED_META)),c:[],p:{}});
 function initState(){
-  const stored=Reliability.readStorage(localStorage,LS_KEY,CR.length);
+  let stored=Reliability.readStorage(localStorage,LS_KEY,CR.length);
+  if(!stored.state&&!stored.error){
+    const legacy=Reliability.readStorage(localStorage,LEGACY_LS_KEY,CR.length);
+    if(legacy.state){stored=legacy;const migrated=Reliability.writeStorage(localStorage,LS_KEY,legacy.state);if(migrated.ok)toast('Dados locais anteriores migrados para a chave exclusiva desta aplicação.');}
+  }
   S=stored.state||seed();
-  if(stored.error)toast('Não foi possível carregar os dados salvos. A aplicação iniciou com dados de demonstração; recupere um backup antes de continuar.');
+  if(stored.error)toast('Não foi possível carregar os dados salvos. A aplicação iniciou um relatório vazio; recupere um backup antes de continuar.');
   S.m=Object.assign({sec4:'',sec5:'',sec6:'',lim:'',imgs:[],pa:[]},S.m||{});
   S.m.pa=Array.isArray(S.m.pa)?S.m.pa:[];
   S.m.pdfOrientation=S.m.pdfOrientation==='landscape'?'landscape':'portrait';

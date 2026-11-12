@@ -2,12 +2,12 @@
    Telas (HTML em template string): checklist, quadro geral, planos de ação e dados do relatório. */
 const imgBox=k=>{const a=(S.m.ti&&S.m.ti[k])||[];return`<div class="f" style="margin:4px 0 16px;padding:8px 10px;border:1px dashed var(--b);border-radius:8px"><b>Imagens deste tópico</b><div style="margin:8px 0"><label class="btn photo-add">+ Adicionar imagem<input type="file" accept="image/*" data-report-img="${k}" multiple hidden></label></div>${a.length?`<div class="photos">${a.map((ph,i)=>`<div class="photo"><img src="${ph.data}" alt="${esc(ph.name||'Imagem do relatório')}"><button type="button" data-rmreportimg="${k}:${i}" title="Remover imagem">×</button><span class="photo-name">${esc(ph.name||'Imagem')}</span></div>`).join('')}</div>`:'<p class="w">Nenhuma imagem adicionada a este tópico.</p>'}</div>`}
 
-function render(){const T=tot(),m=S.m;
+function render(){const T=tot(),m=S.m,sectionStates={};document.querySelectorAll('[data-section-key]').forEach(el=>sectionStates[el.dataset.sectionKey]=el.open);
 $('#app').innerHTML=`<header><h1>Auditoria Interna · Checklist de Medição<small>${esc(m.ai)} · ${esc(m.obra)} · ${esc(m.mes)}</small></h1>
 <button class="btn" data-a="exp">Exportar dados</button><label class="btn">Importar<input type="file" accept=".json" data-a="imp" hidden></label>
 <button class="btn p" data-a="doc">Gerar Word</button><button class="btn p" data-a="pdf">Gerar PDF</button></header>
 <nav>${[['chk','Checklist por contrato'],['qg','Quadro geral'],['pl','Planos de ação (tópico 11)'],['cf','Dados do relatório']].map(([k,n])=>`<button data-a="tab" data-v="${k}" class="${tab==k?"on":""}">${n}</button>`).join('')}</nav>
-<main>${tab=='chk'?vChk(T):tab=='qg'?vQg(T):tab=='pl'?vPl():vCf()}</main>`}
+<main>${tab=='chk'?vChk(T):tab=='qg'?vQg(T):tab=='pl'?vPl():vCf()}</main>`;document.querySelectorAll('[data-section-key]').forEach(el=>{if(Object.prototype.hasOwnProperty.call(sectionStates,el.dataset.sectionKey))el.open=sectionStates[el.dataset.sectionKey]})}
 
 function vChk(T){const c=S.c[cur];if(!c)return '<div class="card">Nenhum contrato. <p><button class="btn" data-a="add">+ Contrato</button></p></div>';
  const r=T.r[cur];
@@ -28,7 +28,7 @@ ${CR.map((k,i)=>`<div class="row ${k[2]?'':'al'}"><b>${esc(k[1])}</b> <span clas
 
 function vQg(T){return`<div class="kpi"><div class="card"><div class="w">Nível de conformidade</div><div class="big">${pc(T.idx)}</div></div><div class="card"><div class="w">Contratos auditados</div><div class="big">${T.n}</div></div></div>
 <div class="grid" style="grid-template-columns:1fr 1fr"><div class="card sc"><table><tr><th>Item</th><th>Processo auditado</th><th>Nível</th></tr>${ordIdx().map((j,n)=>{const c=S.c[j];return`<tr><td>8.${n+1}</td><td>${esc(c.f)}</td><td>${LB[T.r[j].lv]}</td></tr>`}).join('')}</table></div>
-<div class="card sc"><table><tr><th>Controles internos</th><th>Qtd</th><th>Pontos</th></tr><tr><td>Implementados (IM)</td><td>${T.q.I}</td><td>${T.q.I}</td></tr><tr><td>Oportunidade de melhoria (OM)</td><td>${T.q.O}</td><td>${T.q.O}</td></tr><tr><td>Parcialmente implementados (PI)</td><td>${T.q.P}</td><td>${(T.q.P*0.65).toFixed(2)}</td></tr><tr><td>Não implementados (NI)</td><td>${T.q.N}</td><td>0</td></tr><tr><td>Não avaliados / não aplicáveis (NA)</td><td>${T.q.A}</td><td>0</td></tr></table></div></div>
+<div class="card sc"><table><tr><th>Controles internos</th><th>Qtd</th><th>Pontos</th></tr><tr><td>Implementados (IM)</td><td>${T.q.I}</td><td>${T.q.I}</td></tr><tr><td>Parcialmente implementados (PI)</td><td>${T.q.P}</td><td>${(T.q.P*0.65).toFixed(2)}</td></tr><tr><td>Não implementados (NI)</td><td>${T.q.N}</td><td>0</td></tr><tr><td>Não avaliados / não aplicáveis (NA)</td><td>${T.q.A}</td><td>0</td></tr></table></div></div>
 <p class="w">Cálculo: (${T.pts.toFixed(2)} ÷ ${T.n}) × 100 = ${pc(T.idx)}. Contrato: IM ≥ 80% · PI ≥ 50% · NI &lt; 50%.</p></div>`}
 
 function vPl(){const it=CR.map((k,i)=>[k,i,aff(i)]).filter(x=>x[2].length);if(!it.length)return'<div class="card">Sem constatações: nenhum item PI/NI.</div>';
@@ -43,7 +43,7 @@ function vPl(){const it=CR.map((k,i)=>[k,i,aff(i)]).filter(x=>x[2].length);if(!i
 <label class="f">Plano de ação do setor auditado<textarea class="i" rows="2" data-p="${k[0]}.x">${esc(p.x)}</textarea></label></div></div>`}).join('')}
 
 function vCf(){const m=S.m;const field=(label,key,rows,placeholder='')=>`<label class="f">${label}<textarea class="i" rows="${rows}" data-m="${key}" placeholder="${placeholder}">${esc(m[key])}</textarea></label>`;
-const group=(title,content,open=false)=>`<details class="form-section" ${open?'open':''}><summary>${title}</summary><div class="section-body">${content}</div></details>`;
+const group=(title,content,open=false)=>`<details class="form-section" data-section-key="${esc(title)}" ${open?'open':''}><summary>${title}</summary><div class="section-body">${content}</div></details>`;
 return `<div class="card report-data">
 ${group('Identificação do relatório',`<div class="meta">${[['ai','Nº do relatório'],['tema','Tema'],['obra','Obra'],['mes','Competência']].map(([k,n])=>`<label class="f">${n}<input class="i" data-m="${k}" value="${esc(m[k])}"></label>`).join('')}</div>`,true)}
 ${group('Formato do PDF',`<label class="f">Orientação da página<select class="i" data-m="pdfOrientation"><option value="portrait" ${m.pdfOrientation!=='landscape'?'selected':''}>A4 — Retrato</option><option value="landscape" ${m.pdfOrientation==='landscape'?'selected':''}>A4 — Paisagem</option></select></label><p class="w">A orientação escolhida será aplicada a todas as páginas do PDF.</p>`)}

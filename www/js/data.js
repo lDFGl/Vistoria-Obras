@@ -18,6 +18,16 @@ async function loadData(){
   const [cr,tx,mg,meta,ct]=await Promise.all([
     getJSON('data/criterios.json'),getJSON('data/textos.json'),getJSON('data/magnitude.json'),
     getJSON('data/relatorio-padrao.json'),getJSON('data/contratos-exemplo.json')]);
+  // Validação estrutural dos critérios antes de convertê-los ao formato interno.
+  if(!Array.isArray(cr)||!cr.length)throw new Error('criterios.json deve conter uma lista não vazia.');
+  const keys=new Set();
+  cr.forEach((o,i)=>{
+    if(!o||typeof o!=='object'||Array.isArray(o))throw new Error('Critério inválido na posição '+(i+1)+'.');
+    if(typeof o.chave!=='string'||!o.chave.trim()||keys.has(o.chave))throw new Error('Chave de critério ausente ou duplicada na posição '+(i+1)+'.');
+    keys.add(o.chave);
+    if(typeof o.pergunta!=='string'||!o.pergunta.trim()||typeof o.constatacao!=='string'||typeof o.recomendacao!=='string'||typeof o.setor!=='string')throw new Error('Campos textuais incompletos no critério '+o.chave+'.');
+    if(typeof o.peso!=='number'||!Number.isFinite(o.peso)||o.peso<0)throw new Error('Peso inválido no critério '+o.chave+'.');
+  });
   // critério: [chave, pergunta, peso, constatação, recomendação, setor]
   CR=cr.map(o=>[o.chave,o.pergunta,o.peso,o.constatacao,o.recomendacao,o.setor]);
   TX=tx;MG=mg;SEED_META=meta;SEED_CONTRACTS=ct;
