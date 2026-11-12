@@ -5,7 +5,7 @@ function pdfGen(){if(!window.jspdf||!window.jspdf.jsPDF){toast('Biblioteca de PD
  if(!S.c.length){toast('Nenhum contrato para gerar o relatório');return}
  const m=S.m,{jsPDF}=window.jspdf,d=new jsPDF({unit:'pt',format:'a4',orientation:m.pdfOrientation==='landscape'?'landscape':'portrait'});if(typeof d.autoTable!='function'){toast('Plugin de tabelas do PDF não carregou');return}const T=tot();let M=85,W=d.internal.pageSize.getWidth()-170;const centerX=()=>d.internal.pageSize.getWidth()/2,pageH=()=>d.internal.pageSize.getHeight(),col={I:[30,142,78],P:[217,138,0],N:[198,47,47],O:[43,111,214],A:[0,138,201]};let y=0;
  const NP=()=>{d.addPage();y=110},fit=h=>{if(y+h>pageH()-90)NP()};
- const H=t=>{if(y>96)NP();d.setFont('helvetica','bold').setFontSize(13).setTextColor(19,92,108);d.text(t,M,y);y+=8;d.setDrawColor(19,92,108).line(M,y,M+W,y);y+=16;d.setTextColor(0)};
+ const H=t=>{if(y>110)NP();d.setFont('helvetica','bold').setFontSize(13).setTextColor(19,92,108);d.text(t,M,y);y+=8;d.setDrawColor(19,92,108).line(M,y,M+W,y);y+=16;d.setTextColor(0)};
  const P=(t,b,o={})=>{const x0=M+(o.i||0),w0=W-(o.i||0),jus=!b&&o.j!==false,tk=[];
   String(t).split(/\*\*(.+?)\*\*/g).forEach((q,i)=>q.split(/ +/).filter(Boolean).forEach(w=>tk.push({w,b:b||i%2==1})));
   const wd=k=>(d.setFont('helvetica',k.b?'bold':'normal').setFontSize(12),d.getTextWidth(k.w)),sw=(d.setFont('helvetica','normal').setFontSize(12),d.getTextWidth(' '));
