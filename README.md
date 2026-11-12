@@ -91,7 +91,7 @@ A camada `www/js/report-model.js` centraliza ordenação, classificação e cál
 
 ## Padrão de formatação dos relatórios
 
-- **Word:** fonte Arial, corpo em 12 pt; títulos, capa e sumário mantêm hierarquia própria. Margens superior, inferior, esquerda e direita, além da distância do cabeçalho/rodapé, configuradas em 3 cm. As tabelas são redimensionadas proporcionalmente para caber na área útil A4.
+- **Word:** fonte Arial, corpo em 12 pt; títulos, capa e sumário mantêm hierarquia própria. Margens superior, inferior, esquerda e direita configuradas em 3 cm. Cabeçalho e rodapé permanecem sem conteúdo automático, para edição manual posterior no Word. As tabelas são redimensionadas proporcionalmente para caber na área útil A4.
 - **PDF:** corpo em 12 pt, margens de 3 cm e orientação A4 retrato ou paisagem selecionável nos dados do relatório. O jsPDF utiliza a fonte-base Helvetica (substituta métrica aproximada da Arial); o aplicativo não incorpora uma fonte Arial licenciada.
-- A paginação considera a área útil após o ajuste de margens. As fotos de evidência continuam vinculadas ao contrato/constatação correspondente.
+- O tópico 2 do PDF utiliza o mesmo conteúdo estruturado de `www/data/textos.json` que alimenta o Word. A paginação considera a área útil após o ajuste de margens, inclusive antes de imagens. As fotos de evidência continuam vinculadas ao contrato/constatação correspondente.
 - **Testes:** `npm test` valida ordenação, cálculos, compatibilidade dos códigos persistidos e não mutação dos dados. O workflow executa esses testes e a verificação sintática dos módulos.
