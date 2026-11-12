@@ -86,3 +86,8 @@ test('falha de gravação não é reportada como persistência concluída',()=>{
   assert.equal(result.ok,false);
   assert.ok(result.error);
 });
+
+test('backup de versão futura é recusado para evitar migração destrutiva',()=>{
+  const future={app:'Vistoria-Obras',schemaVersion:999,data:{m:{},c:[],p:{}}};
+  assert.throws(()=>reliability.parseBackup(future,0),/versão mais recente/);
+});
