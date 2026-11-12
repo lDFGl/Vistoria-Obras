@@ -77,11 +77,11 @@ const s11=[H1('11. RESUMO DAS RECOMENDAÇÕES DA AUDITORIA INTERNA e PLANOS DE A
 const tiny=()=>new Paragraph({spacing:{after:0,line:20,lineRule:LineRuleType.EXACT},children:[]});
 const wh={b:1,c:'FFFFFF',s:24,a:AL.RIGHT,af:0};
 const hdr=new Header({children:[tb([2700,5804],[[ce([pa([im('logo',Math.round(46*LG.w/LG.h),46)],{af:0})],2700,{f:C,nb:1,scale:1}),ce([pa(m.ai+' '+m.tema,wh),pa('AUDITORIA INTERNA',wh),pa(m.mes.toUpperCase(),wh)],5804,{f:C,nb:1,scale:1})]],0,1),tiny()]});
-const ftr=new Footer({children:[tb([11906],[[ce([new Paragraph({alignment:ctr,children:[new TextRun({children:['Página ',PageNumber.CURRENT],font:'Arial',size:16,bold:true,color:'FFFFFF'})]})],11906,{f:C,nb:1})]],-1134),tiny()]});
+const ftr=new Footer({children:[tb([8504],[[ce([new Paragraph({alignment:ctr,children:[new TextRun({children:['Página ',PageNumber.CURRENT],font:'Arial',size:16,bold:true,color:'FFFFFF'})]})],8504,{f:C,nb:1,scale:1})]],0,1),tiny()]});
 const portraitProps={page:{size:{width:11906,height:16838},margin:{top:1701,bottom:1701,left:1701,right:1701,header:1701,footer:1701}}};
 const landscapeProps={page:{size:{width:16838,height:11906},margin:{top:1701,bottom:1701,left:1701,right:1701,header:1701,footer:1701}}};
 const hdrL=new Header({children:[tb([5000,8436],[[ce([pa([im('logo',Math.round(46*LG.w/LG.h),46)],{af:0})],5000,{f:C,nb:1,scale:1}),ce([pa(m.ai+' '+m.tema,wh),pa('AUDITORIA INTERNA',wh),pa(m.mes.toUpperCase(),wh)],8436,{f:C,nb:1,scale:1})]],0,1),tiny()]});
-const ftrL=new Footer({children:[tb([15038],[[ce([new Paragraph({alignment:ctr,children:[new TextRun({children:['Página ',PageNumber.CURRENT],font:'Arial',size:16,bold:true,color:'FFFFFF'})]})],15038,{f:C,nb:1})]],-900),tiny()]});
+const ftrL=new Footer({children:[tb([13436],[[ce([new Paragraph({alignment:ctr,children:[new TextRun({children:['Página ',PageNumber.CURRENT],font:'Arial',size:16,bold:true,color:'FFFFFF'})]})],13436,{f:C,nb:1,scale:1})]],0,1),tiny()]});
 const pre=[...cover,...qg,...sm,...s1,...s2,...s3],post=[...s5,...s6,...s7,...s8,...s9,...s10,...s11];
 const hasLandscape=!!(m.sec4||hi('sec4'));
 const sections=hasLandscape?[{properties:portraitProps,headers:{default:hdr},footers:{default:ftr},children:pre},{properties:landscapeProps,headers:{default:hdrL},footers:{default:ftrL},children:s4},{properties:portraitProps,headers:{default:hdr},footers:{default:ftr},children:post}]:[{properties:portraitProps,headers:{default:hdr},footers:{default:ftr},children:[...pre,...s4,...post]}];
