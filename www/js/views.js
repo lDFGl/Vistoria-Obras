@@ -46,6 +46,7 @@ function vCf(){const m=S.m;const field=(label,key,rows,placeholder='')=>`<label 
 const group=(title,content,open=false)=>`<details class="form-section" ${open?'open':''}><summary>${title}</summary><div class="section-body">${content}</div></details>`;
 return `<div class="card report-data">
 ${group('Identificação do relatório',`<div class="meta">${[['ai','Nº do relatório'],['tema','Tema'],['obra','Obra'],['mes','Competência']].map(([k,n])=>`<label class="f">${n}<input class="i" data-m="${k}" value="${esc(m[k])}"></label>`).join('')}</div>`,true)}
+${group('Formato do PDF',`<label class="f">Orientação da página<select class="i" data-m="pdfOrientation"><option value="portrait" ${m.pdfOrientation!=='landscape'?'selected':''}>A4 — Retrato</option><option value="landscape" ${m.pdfOrientation==='landscape'?'selected':''}>A4 — Paisagem</option></select></label><p class="w">A orientação escolhida será aplicada a todas as páginas do PDF.</p>`)}
 ${group('4. Organograma e fluxograma',field('Descrição do organograma, fluxo e responsabilidades','sec4',6,'Descreva a estrutura, o fluxo e as responsabilidades.')+imgBox('sec4'))}
 ${group('5. Procedimentos internos',field('Procedimentos, instruções de trabalho e documentos de referência','sec5',6,'Informe os procedimentos, instruções, formulários e documentos que embasam os testes.')+imgBox('sec5'))}
 ${group('6. Testes da auditoria interna',field('Procedimentos e verificações realizados','sec6',8,'Descreva os testes, procedimentos e verificações realizados.')+imgBox('sec6'))}
