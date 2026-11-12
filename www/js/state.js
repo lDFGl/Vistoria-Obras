@@ -5,7 +5,11 @@ let S,cur=0,tab='chk',arm=0;
 // Estado inicial: metadados padrão e lista vazia para evitar misturar demonstrações com auditorias reais.
 const seed=()=>({m:JSON.parse(JSON.stringify(SEED_META)),c:[],p:{}});
 function initState(){
-  const stored=Reliability.readStorage(localStorage,LS_KEY,CR.length);
+  let stored=Reliability.readStorage(localStorage,LS_KEY,CR.length);
+  if(!stored.state&&!stored.error){
+    const legacy=Reliability.readStorage(localStorage,LEGACY_LS_KEY,CR.length);
+    if(legacy.state){stored=legacy;const migrated=Reliability.writeStorage(localStorage,LS_KEY,legacy.state);if(migrated.ok)toast('Dados locais anteriores migrados para a chave exclusiva desta aplicação.');}
+  }
   S=stored.state||seed();
   if(stored.error)toast('Não foi possível carregar os dados salvos. A aplicação iniciou um relatório vazio; recupere um backup antes de continuar.');
   S.m=Object.assign({sec4:'',sec5:'',sec6:'',lim:'',imgs:[],pa:[]},S.m||{});
