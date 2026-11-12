@@ -20,7 +20,7 @@ document.addEventListener('change',e=>{const t=e.target,c=S.c[cur];
     const previous=S;
     try{
       const candidate=Reliability.parseBackup(r.result,CR.length);
-      S=candidate;normTI();normCR();cur=0;save();render();toast('Backup importado e validado');
+      S=candidate;normTI();normCR();cur=0;if(!save()){S=previous;return}render();toast('Backup importado e validado');
     }catch(x){S=previous;toast('Importação cancelada: arquivo inválido ou incompatível. Os dados atuais foram preservados.')}
   };
   r.onerror=()=>toast('Não foi possível ler o arquivo. Os dados atuais foram preservados.');
