@@ -29,7 +29,7 @@ test('Resumo executivo é apresentado abaixo do Quadro Geral em Word e PDF',()=>
 test('Word apresenta imagens em tabela de duas colunas, com legenda e proporção preservada',()=>{
   assert.match(word,/const imgW=\(k,mw=620,mh=400,items=null,showTitle=true\)/);
   assert.match(word,/columnWidths:\[4200,4200\]/);
-  assert.match(word,/fit\(ph,Math\.min\(mw\/2-20,190\),mh\)/);
+  assert.match(word,/columns=k==='sec4'\?1:2/);\n  assert.match(word,/Math\.min\(mw\/2-20,360\)/);\n  assert.match(word,/size:4200,type:WT\.DXA/);
   assert.match(word,/\.\.\.imgW\('',600,380,c\.imgs,false\)/);
 });
 
@@ -63,7 +63,7 @@ test('backup novo versionado e backup antigo sem envelope são importáveis',()=
   assert.equal(migrated.p && typeof migrated.p,'object');
   const encoded=reliability.createBackup(migrated,new Date('2026-11-12T12:00:00Z'));
   const parsed=JSON.parse(encoded);
-  assert.equal(parsed.app,'Vistoria-Obras');assert.equal(parsed.schemaVersion,2);
+  assert.equal(parsed.app,'Vistoria-Obras');assert.equal(parsed.schemaVersion,3);
   assert.deepEqual(reliability.parseBackup(encoded,4),migrated);
 });
 test('backup inválido é rejeitado sem alterar estado anterior',()=>{
@@ -108,4 +108,44 @@ test('falha de gravação não é reportada como persistência concluída',()=>{
 test('backup de versão futura é recusado para evitar migração destrutiva',()=>{
   const future={app:'Vistoria-Obras',schemaVersion:999,data:{m:{},c:[],p:{}}};
   assert.throws(()=>reliability.parseBackup(future,0),/versão mais recente/);
+});
+
+test('validação rejeita imagem adulterada e aceita JPEG base64',()=>{
+  const valid={m:{ti:{sec4:[{name:'foto.jpg',data:'data:image/jpeg;base64,/9j/2Q=='}]}},c:[],p:{}};
+  assert.equal(reliability.validateState(valid).valid,true);
+  const invalid={m:{ti:{sec4:[{name:'x',data:'data:text/html;base64,PHNjcmlwdD4='}]}},c:[],p:{}};
+  assert.equal(reliability.validateState(invalid).valid,false);
+  const invalidContract={m:{},c:[{imgs:[{data:'https://example.com/x.jpg'}]}],p:{}};
+  assert.equal(reliability.validateState(invalidContract).valid,false);
+});
+test('novo relatório começa sem contratos demonstrativos e reseta metadados',()=>{
+  const state={m:{ai:'AI-999',rex:'texto antigo',concl:'conclusão antiga',pa:[{c:'x'}],ti:{sec4:[{data:'data:image/jpeg;base64,/9j/2Q=='}]}},c:[],p:{}};
+  const events=fs.readFileSync(path.join(__dirname,'../www/js/events.js'),'utf8');
+  assert.match(events,/Reliability\.createBackup\(S\)/);
+  assert.match(events,/S=\{m:JSON\.parse\(JSON\.stringify\(SEED_META\)\),c:\[\],p:\{\}\}/);
+});
+test('remoção de imagem não referencia variável antes da inicialização',()=>{
+  assert.match(fs.readFileSync(path.join(__dirname,'../www/js/events.js'),'utf8'),/if\(ri\)\{const contract=S\.c\[cur\]/);
+  assert.doesNotMatch(fs.readFileSync(path.join(__dirname,'../www/js/events.js'),'utf8'),/if\(ri\)\{c=S\.c\[cur\]/);
+});
+test('conversão de PNG para JPEG aplica fundo branco antes da imagem',()=>{
+  const events=fs.readFileSync(path.join(__dirname,'../www/js/events.js'),'utf8');
+  assert.equal((events.match(/ctx\.fillStyle='#fff';ctx\.fillRect\(0,0,cv\.width,cv\.height\);ctx\.drawImage/g)||[]).length,2);
+});
+test('arquivos exportados normalizam acentos sem alterar o título exibido',()=>{
+  const events=fs.readFileSync(path.join(__dirname,'../www/js/events.js'),'utf8');
+  assert.match(events,/normalize\('NFD'\)/);
+  assert.match(word,/safeFilePart\(m\.ai\)/);
+  assert.match(pdf,/safeFilePart\(m\.ai\)/);
+});
+test('OM não é contabilizada como contrato no Quadro Geral',()=>{
+  const views=fs.readFileSync(path.join(__dirname,'../www/js/views.js'),'utf8');
+  assert.doesNotMatch(views,/T\.q\.O/);
+  assert.doesNotMatch(word,/Oportunidade de Melhoria \(OM\)/);
+  assert.doesNotMatch(pdf,/Oportunidade de melhoria \(OM\)/);
+});
+test('seção 4 recebe coluna única e cabeçalho/rodapé usam 1,3 cm',()=>{
+  assert.match(word,/columns=k==='sec4'\?1:2/);
+  assert.match(word,/header:737,footer:737/);
+  assert.match(pdf,/columns=k==='sec4'\?1:2/);
 });
