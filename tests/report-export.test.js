@@ -74,4 +74,15 @@ test('limites dos cálculos de conformidade e pesos inválidos',()=>{
   assert.equal(model.calcContract(contract(['P','P','N','N']),cr).p,.25);
   assert.equal(model.calcContract(contract(['A','A','A','A']),cr).lv,'A');
   assert.equal(model.calcContract(contract(['I','I']),[['x','x',-1],['y','y',0]]).lv,'A');
+  assert.equal(model.calcContract(contract(['I','I','I','I']),cr).p,1);
+  assert.equal(model.calcContract(contract(['I','I','I','N']),cr).p,.75);
+  assert.equal(model.calcContract(contract(['I','I','I','P']),cr).lv,'I');
+  assert.equal(model.calcContract(contract(['I','N','N','N']),cr).lv,'N');
+});
+
+test('falha de gravação não é reportada como persistência concluída',()=>{
+  const storage={getItem:()=>null,setItem:()=>{throw new Error('quota exceeded')}};
+  const result=reliability.writeStorage(storage,'aud1',{m:{},c:[],p:{}});
+  assert.equal(result.ok,false);
+  assert.ok(result.error);
 });
