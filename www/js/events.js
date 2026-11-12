@@ -19,16 +19,8 @@ document.addEventListener('change',e=>{const t=e.target,c=S.c[cur];
   r.onload=()=>{
     const previous=S;
     try{
-      const candidate=JSON.parse(r.result);
-      const validation=ReportModel.validateBackup(candidate);
-      if(!validation.valid)throw new Error(validation.message);
-      candidate.m=Object.assign({sec4:'',sec5:'',sec6:'',lim:'',imgs:[],pa:[],pdfOrientation:'portrait'},candidate.m);candidate.m.pdfOrientation=candidate.m.pdfOrientation==='landscape'?'landscape':'portrait';
-      candidate.m.imgs=Array.isArray(candidate.m.imgs)?candidate.m.imgs:[];
-      candidate.m.pa=Array.isArray(candidate.m.pa)?candidate.m.pa:[];
-      candidate.m.rex=candidate.m.rex||'';candidate.m.concl=candidate.m.concl||'';
-      candidate.m.imp=candidate.m.imp||'Alto';candidate.m.prb=candidate.m.prb||'Extremo';
-      candidate.c=candidate.c.map(c=>Object.assign({o:{},ac:{},imgs:[]},c,{o:c.o&&typeof c.o==='object'?c.o:{},ac:c.ac&&typeof c.ac==='object'?c.ac:{},imgs:Array.isArray(c.imgs)?c.imgs:[]}));
-      S=candidate;normTI();normCR();cur=0;save();render();toast('Dados importados e validados');
+      const candidate=Reliability.parseBackup(r.result,CR.length);
+      S=candidate;normTI();normCR();cur=0;save();render();toast('Backup importado e validado');
     }catch(x){S=previous;toast('Importação cancelada: arquivo inválido ou incompatível. Os dados atuais foram preservados.')}
   };
   r.onerror=()=>toast('Não foi possível ler o arquivo. Os dados atuais foram preservados.');
