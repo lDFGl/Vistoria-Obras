@@ -20,19 +20,7 @@ document.addEventListener('change',e=>{const t=e.target,c=S.c[cur];
     const previous=S;
     try{
       const candidate=JSON.parse(r.result);
-      if(!candidate||typeof candidate!=='object'||Array.isArray(candidate)||
-         !candidate.m||typeof candidate.m!=='object'||Array.isArray(candidate.m)||
-         !Array.isArray(candidate.c)||!candidate.p||typeof candidate.p!=='object'||Array.isArray(candidate.p))
-        throw new Error('Estrutura de backup incompatível');
-      candidate.c.forEach((item,i)=>{
-        if(!item||typeof item!=='object'||Array.isArray(item)||
-           !Array.isArray(item.s)||item.s.some(v=>!['I','P','N','O','A'].includes(v))||
-           (item.f!=null&&typeof item.f!=='string')||
-           (item.ct!=null&&typeof item.ct!=='string'&&typeof item.ct!=='number')||
-           (item.t!=null&&!Number.isFinite(Number(item.t)))||
-           (item.v!=null&&!Number.isFinite(Number(item.v))))
-          throw new Error('Contrato inválido na posição '+(i+1));
-      });
+      const validation=ReportModel.validateBackup(candidate);\n      if(!validation.valid)throw new Error(validation.message);
       candidate.m=Object.assign({sec4:'',sec5:'',sec6:'',lim:'',imgs:[],pa:[]},candidate.m);
       candidate.m.imgs=Array.isArray(candidate.m.imgs)?candidate.m.imgs:[];
       candidate.m.pa=Array.isArray(candidate.m.pa)?candidate.m.pa:[];
