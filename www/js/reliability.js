@@ -50,6 +50,7 @@ function createBackup(state,now){
 }
 function parseBackup(text,criteriaCount){
   let parsed;try{parsed=typeof text==='string'?JSON.parse(text):text}catch(e){throw new Error('Arquivo JSON inválido')};
+  if(parsed&&parsed.app==='Vistoria-Obras'&&Number(parsed.schemaVersion)>VERSION)throw new Error('Backup criado por uma versão mais recente do aplicativo');
   const validation=validateState(parsed);if(!validation.valid)throw new Error(validation.message);
   return normalizeState(parsed,criteriaCount);
 }
