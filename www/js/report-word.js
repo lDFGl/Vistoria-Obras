@@ -4,7 +4,7 @@ async function word(){const bak=S.c,model=ReportModel.buildReportModel(S,CR);S.c
 async function wordGen(){try{
 const D=window.docx;if(!D){toast('Biblioteca Word não carregou (verifique a conexão)');return}
 if(!S.c.length){toast('Nenhum contrato para gerar o relatório');return}
-const{Document,Packer,Paragraph,TextRun,Table,TableRow,TableCell,ImageRun,Header,Footer,AlignmentType:AL,WidthType:WT,ShadingType,BorderStyle:BS,PageNumber,VerticalAlign:VA,HeadingLevel,LineRuleType,TableOfContents,Bookmark,PageReference}=D;
+const{Document,Packer,Paragraph,TextRun,Table,TableRow,TableCell,ImageRun,AlignmentType:AL,WidthType:WT,ShadingType,BorderStyle:BS,VerticalAlign:VA,HeadingLevel,TableOfContents,Bookmark,PageReference}=D;
 const C='135C6C',T=tot(),m=S.m,ic={I:'I',P:'P',N:'N',O:'I',A:'A'},RM=['I','II','III','IV','V','VI','VII','VIII','IX'];
 const u8=k=>Uint8Array.from(atob(IMG[k].split(',')[1]),c=>c.charCodeAt(0));
 const u8data=x=>Uint8Array.from(atob(x.split(',')[1]),c=>c.charCodeAt(0));
@@ -73,18 +73,11 @@ const rw=[{h:1,c:[hd('ITEM / SETOR:',1100),hd('CONSTATAÇÃO:',2200),hd('RECOMEN
 CR.forEach((k,i)=>{const a=aff(i);if(!a.length)return;const p=S.p[k[0]]||{};n++;rw.push([ce([pa(String(n),{b:1,s:24,af:0}),pa(p.s??k[5],{b:1,s:24,af:0})],1100),ce([pa(k[3],{s:24,af:60}),...(p.causa?[pa('Causa provável: '+p.causa,{s:24,af:40})]:[]),...(p.risco?[pa('Risco / efeito potencial: '+p.risco,{s:24,af:40})]:[])],2200),ce([pa(p.rec||k[4],{s:24,af:60}),pa('Contratos afetados: '+a.join(', ')+'.',{b:1,s:24,af:60})],3938),ce(p.z||'—',1200,{a:ctr}),ce(p.t||'Pendente',1200,cb)]);rw.push([ce('PLANO DE AÇÃO DO SETOR AUDITADO: '+(p.x||''),9638,{cs:5,f:'ECF0F6',b:1})])});
 (m.pa||[]).forEach(e=>{if(!(e.c||e.r||e.x))return;n++;rw.push([ce([pa(String(n),{b:1,s:24,af:0}),pa(e.s||'—',{b:1,s:24,af:0})],1100),ce(e.c||'',2200),ce([pa(e.r||'',{s:24,af:60})].concat(e.a?[pa('Itens afetados: '+e.a,{b:1,s:24,af:60})]:[]),3938),ce(e.z||'—',1200,{a:ctr}),ce(e.t||'Pendente',1200,cb)]);rw.push([ce('PLANO DE AÇÃO DO SETOR AUDITADO: '+(e.x||''),9638,{cs:5,f:'ECF0F6',b:1})])});
 const s11=[H1('11. RESUMO DAS RECOMENDAÇÕES DA AUDITORIA INTERNA e PLANOS DE AÇÕES DO SETOR AUDITADO'),pa('Resumo do acompanhamento das recomendações feitas pela auditoria interna e providências tomadas pelo setor auditado para atender as demandas.',{a:AL.JUSTIFIED}),n?tb([1100,2200,3938,1200,1200],rw):pa('Sem constatações PI/NI.')];
-// cabeçalho e rodapé (faixa 135C6C + logo)
-const tiny=()=>new Paragraph({spacing:{after:0,line:20,lineRule:LineRuleType.EXACT},children:[]});
-const wh={b:1,c:'FFFFFF',s:24,a:AL.RIGHT,af:0};
-const hdr=new Header({children:[tb([2700,5804],[[ce([pa([im('logo',Math.round(46*LG.w/LG.h),46)],{af:0})],2700,{f:C,nb:1,scale:1}),ce([pa(m.ai+' '+m.tema,wh),pa('AUDITORIA INTERNA',wh),pa(m.mes.toUpperCase(),wh)],5804,{f:C,nb:1,scale:1})]],0,1),tiny()]});
-const ftr=new Footer({children:[tb([8504],[[ce([new Paragraph({alignment:ctr,children:[new TextRun({children:['Página ',PageNumber.CURRENT],font:'Arial',size:16,bold:true,color:'FFFFFF'})]})],8504,{f:C,nb:1,scale:1})]],0,1),tiny()]});
 const portraitProps={page:{size:{width:11906,height:16838},margin:{top:1701,bottom:1701,left:1701,right:1701,header:1701,footer:1701}}};
 const landscapeProps={page:{size:{width:16838,height:11906},margin:{top:1701,bottom:1701,left:1701,right:1701,header:1701,footer:1701}}};
-const hdrL=new Header({children:[tb([5000,8436],[[ce([pa([im('logo',Math.round(46*LG.w/LG.h),46)],{af:0})],5000,{f:C,nb:1,scale:1}),ce([pa(m.ai+' '+m.tema,wh),pa('AUDITORIA INTERNA',wh),pa(m.mes.toUpperCase(),wh)],8436,{f:C,nb:1,scale:1})]],0,1),tiny()]});
-const ftrL=new Footer({children:[tb([13436],[[ce([new Paragraph({alignment:ctr,children:[new TextRun({children:['Página ',PageNumber.CURRENT],font:'Arial',size:16,bold:true,color:'FFFFFF'})]})],13436,{f:C,nb:1,scale:1})]],0,1),tiny()]});
 const pre=[...cover,...qg,...sm,...s1,...s2,...s3],post=[...s5,...s6,...s7,...s8,...s9,...s10,...s11];
 const hasLandscape=!!(m.sec4||hi('sec4'));
-const sections=hasLandscape?[{properties:portraitProps,headers:{default:hdr},footers:{default:ftr},children:pre},{properties:landscapeProps,headers:{default:hdrL},footers:{default:ftrL},children:s4},{properties:portraitProps,headers:{default:hdr},footers:{default:ftr},children:post}]:[{properties:portraitProps,headers:{default:hdr},footers:{default:ftr},children:[...pre,...s4,...post]}];
+const sections=hasLandscape?[{properties:portraitProps,children:pre},{properties:landscapeProps,children:s4},{properties:portraitProps,children:post}]:[{properties:portraitProps,children:[...pre,...s4,...post]}];
 const doc=new Document({features:{updateFields:true},creator:'Auditoria Interna',title:m.ai+' - '+m.tema,styles:{default:{document:{run:{font:'Arial',size:20}}}},sections});
 const blob=await Packer.toBlob(doc);
 dl(m.ai.replace(/\W+/g,'-')+'-'+m.tema.replace(/\W+/g,'-')+'.docx',blob);
