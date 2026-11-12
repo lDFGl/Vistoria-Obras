@@ -35,4 +35,4 @@ document.addEventListener('change',e=>{const t=e.target,c=S.c[cur];
 async function dl(name,data){
   try{const b=data instanceof Blob?data:new Blob([data],{type:/\.pdf$/.test(name)?'application/pdf':'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=name;document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);toast('Download iniciado')}
   catch(e){toast('Não foi possível gerar o download neste ambiente')}}
-const exp=()=>dl('auditoria-'+String(S.m.ai||'backup').replace(/\\W+/g,'-')+'.json',Reliability.createBackup(S));
+const exp=()=>dl('auditoria-'+String(S.m.ai||'backup').replace(/\W+/g,'-')+'.json',Reliability.createBackup(S));
