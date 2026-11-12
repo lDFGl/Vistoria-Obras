@@ -6,7 +6,14 @@
   "license": "UNLICENSED",
   "scripts": {
     "start": "npx --yes http-server www -p 8080 -c-1",
-    "start:python": "python3 -m http.server 8080 --directory www"
+    "start:python": "python3 -m http.server 8080 --directory www",
+    "test": "node --test"
   },
-  "keywords": ["auditoria-interna", "controles-internos", "checklist", "docx", "pdf"]
+  "keywords": [
+    "auditoria-interna",
+    "controles-internos",
+    "checklist",
+    "docx",
+    "pdf"
+  ]
 }
